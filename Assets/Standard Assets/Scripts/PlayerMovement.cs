@@ -95,7 +95,7 @@ public class PlayerMovement : MonoBehaviour {
         {
             transform.Translate(-_standingMoveSpeed * Time.deltaTime, 0, 0);
             if (!_grounded) _playerState = States.JUMPING_LEFT;
-            else _playerState = States.JUMPING_LEFT;
+            else _playerState = States.WALKING_LEFT;
         }
     }
 
@@ -119,7 +119,6 @@ public class PlayerMovement : MonoBehaviour {
     {
         if (_grounded) _playerState = States.IDLE;
         else _playerState = States.JUMPING_STANDING;
-
     }
 
     public void SetJump(float p_height)
@@ -137,6 +136,16 @@ public class PlayerMovement : MonoBehaviour {
 
         if (_standingMoveSpeed < _minMoveSpeed) _standingMoveSpeed = _minMoveSpeed;
         else if (_standingMoveSpeed > _maxMoveSpeed) _standingMoveSpeed = _maxMoveSpeed;
+    }
+
+    public Vector2 GetPosition()
+    {
+        return _rigidBody.position;
+    }
+
+    public States GetState()
+    {
+        return _playerState;
     }
 }
 
