@@ -12,6 +12,14 @@ public enum States
     DEATH
 }
 
+public enum MoveType
+{
+    IDLE,
+    ADVANCE,
+    RETREAT,
+    ERRATIC
+}
+
 public class PlayerMovement : MonoBehaviour {
 
     [Tooltip("LayerMask for collision")]

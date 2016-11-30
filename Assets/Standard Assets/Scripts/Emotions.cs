@@ -37,11 +37,22 @@ public class Emotions : MonoBehaviour {
         ChangeEmotionsEffect();
     }
 
-    public void SetAllEmotions(float p_rage, float p_happy, float p_sad)
+   
+
+    public void SetAllEmotions(bool p_set, float p_rage, float p_happy, float p_sad)
     {
-        _rage += p_rage;
-        _happiness += p_happy;
-        _sadness += p_sad;
+        if(!p_set)
+        {
+            _rage += p_rage;
+            _happiness += p_happy;
+            _sadness += p_sad;
+        }
+        else
+        {
+            _rage = p_rage;
+            _happiness = p_happy;
+            _sadness = p_sad;
+        }
 
         if (_rage > 1f) _rage = 1f;
         else if (_rage < 0f) _rage = 0f;

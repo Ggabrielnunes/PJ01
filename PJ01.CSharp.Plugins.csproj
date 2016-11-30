@@ -68,6 +68,7 @@
   <ItemGroup>
     <Compile Include="Assets\Standard Assets\Scripts\BaseHealth.cs" />
     <Compile Include="Assets\Standard Assets\Scripts\ColorController.cs" />
+    <Compile Include="Assets\Standard Assets\Scripts\DataAnalizer.cs" />
     <Compile Include="Assets\Standard Assets\Scripts\EmotionItem.cs" />
     <Compile Include="Assets\Standard Assets\Scripts\EmotionManager.cs" />
     <Compile Include="Assets\Standard Assets\Scripts\Emotions.cs" />

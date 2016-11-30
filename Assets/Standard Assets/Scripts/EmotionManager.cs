@@ -23,9 +23,7 @@ public class EmotionManager : MonoBehaviour {
     private ColorController[] _allColorControllers;
 
     //Dados salvos a cada três segundos. Últimos três estados (contando o estado atual) são salvos.
-    private Data _dataNow;
-    private Data _data3s;
-    private Data _data6s;
+    private Data[] _data = new Data[3];
 
 	// Use this for initialization
 	private void Start () {
@@ -52,20 +50,26 @@ public class EmotionManager : MonoBehaviour {
     //Atualiza os dados atuais
     private void UpdateDataNow()
     {
-        _dataNow.happiness = _playerEmotions.GetHappiness();
-        _dataNow.sadness = _playerEmotions.GetSadness();
-        _dataNow.rage = _playerEmotions.GetRage();
-        _dataNow.health = _playerHealth.GetHealth();
-        _dataNow.sanity = _playerHealth.GetSanity();
-        _dataNow.position = _playerMovement.GetPosition();
-        _dataNow.playerState = _playerMovement.GetState();      
+        _data[0].happiness = _playerEmotions.GetHappiness();
+        _data[0].sadness = _playerEmotions.GetSadness();
+        _data[0].rage = _playerEmotions.GetRage();
+        _data[0].health = _playerHealth.GetHealth();
+        _data[0].sanity = _playerHealth.GetSanity();
+        _data[0].position = _playerMovement.GetPosition();
+        _data[0].playerState = _playerMovement.GetState();      
     }
     //Organiza os dados
     private void UpdateAllData()
     {
-        _data6s = _data3s;
-        _data3s = _dataNow;
+        _data[2] = _data[1];
+        _data[1] = _data[0];
         UpdateDataNow();
+        UpdateEmotions();
+    }
+
+    private void UpdateEmotions()
+    {
+       
     }
 	
 	// Update is called once per frame
