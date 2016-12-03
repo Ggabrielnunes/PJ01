@@ -66,14 +66,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Standard Assets\Scripts\AI\ColorController.cs" />
+    <Compile Include="Assets\Standard Assets\Scripts\AI\DataAnalyzer.cs" />
+    <Compile Include="Assets\Standard Assets\Scripts\AI\EmotionManager.cs" />
     <Compile Include="Assets\Standard Assets\Scripts\BaseHealth.cs" />
-    <Compile Include="Assets\Standard Assets\Scripts\ColorController.cs" />
-    <Compile Include="Assets\Standard Assets\Scripts\DataAnalizer.cs" />
     <Compile Include="Assets\Standard Assets\Scripts\EmotionItem.cs" />
-    <Compile Include="Assets\Standard Assets\Scripts\EmotionManager.cs" />
-    <Compile Include="Assets\Standard Assets\Scripts\Emotions.cs" />
-    <Compile Include="Assets\Standard Assets\Scripts\PlayerHealth.cs" />
-    <Compile Include="Assets\Standard Assets\Scripts\PlayerMovement.cs" />
+    <Compile Include="Assets\Standard Assets\Scripts\Player\Emotions.cs" />
+    <Compile Include="Assets\Standard Assets\Scripts\Player\PlayerHealth.cs" />
+    <Compile Include="Assets\Standard Assets\Scripts\Player\PlayerMovement.cs" />
+    <Compile Include="Assets\Standard Assets\Scripts\UI\GameGuiManager.cs" />
+    <Compile Include="Assets\Standard Assets\Scripts\UI\GameManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

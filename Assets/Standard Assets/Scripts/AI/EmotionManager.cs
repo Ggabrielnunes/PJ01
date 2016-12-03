@@ -14,6 +14,7 @@ public struct Data
 };
 
 public class EmotionManager : MonoBehaviour {
+
     public GameObject player;
 
     private Emotions _playerEmotions;   
@@ -23,9 +24,8 @@ public class EmotionManager : MonoBehaviour {
     private ColorController[] _allColorControllers;
 
     //Dados salvos a cada três segundos. Últimos três estados (contando o estado atual) são salvos.
-    private Data[] _data = new Data[3];
-
-	// Use this for initialization
+    private Data[] _data = new Data[3];    
+	
 	private void Start () {
         //Encontra os scripts necessários contidos no player:
         _playerEmotions = player.GetComponent<Emotions>();
@@ -35,7 +35,9 @@ public class EmotionManager : MonoBehaviour {
         //Encontra todos os objetos que terão suas cores modificadas
        _allColorControllers = FindObjectsOfType<ColorController>();
         //Atualiza todos os dados a cada 3 segundos
-        InvokeRepeating("UpdateAllData", 1f, 3f);
+        UpdateDataNow();
+        _data[2] = _data[1] = _data[0];
+        InvokeRepeating("UpdateAllData", 3f, 3f);
 	}
 
     //Atualiza os valores de Rage, Happiness e Sadness para todos os objetos necessários
@@ -46,7 +48,6 @@ public class EmotionManager : MonoBehaviour {
             if (_allColorControllers[i].isActiveAndEnabled) _allColorControllers[i].ChangeColor(p_rage, p_happiness, p_sad);
         }
     }
-
     //Atualiza os dados atuais
     private void UpdateDataNow()
     {
@@ -56,7 +57,7 @@ public class EmotionManager : MonoBehaviour {
         _data[0].health = _playerHealth.GetHealth();
         _data[0].sanity = _playerHealth.GetSanity();
         _data[0].position = _playerMovement.GetPosition();
-        _data[0].playerState = _playerMovement.GetState();      
+        _data[0].playerState = _playerMovement.GetState();
     }
     //Organiza os dados
     private void UpdateAllData()
@@ -64,14 +65,11 @@ public class EmotionManager : MonoBehaviour {
         _data[2] = _data[1];
         _data[1] = _data[0];
         UpdateDataNow();
-        UpdateEmotions();
-    }
 
-    private void UpdateEmotions()
-    {
-       
+        float[] __newValues = new float[3];
+        __newValues = DataAnalyzer.CalculateEmotionLevels(_data, __newValues);
+        _playerEmotions.SetAllEmotions(false, __newValues[0], __newValues[1], __newValues[2]);
     }
-	
 	// Update is called once per frame
 	void Update () {
         UpdateAllColors(_playerEmotions.GetRage(), _playerEmotions.GetHappiness(), _playerEmotions.GetSadness());

@@ -16,7 +16,6 @@ public enum MoveType
 {
     IDLE,
     ADVANCE,
-    RETREAT,
     ERRATIC
 }
 
@@ -38,7 +37,7 @@ public class PlayerMovement : MonoBehaviour {
     private bool _grounded = true;
     private bool _isFloating = false;
     private float _linearDrag = 7f;
-    private float _minMoveSpeed = 0.7f;
+    private float _minMoveSpeed = 1.5f;
     private float _maxMoveSpeed = 5f;
     private float _minJumpingHeight=1.8f;
     private float _maxJumpingHeight=3f;
@@ -57,7 +56,7 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     private void Update()
-    {        
+    {
         if(_isFloating && _levCounter < _levLength)
         {
             _levCounter += Time.deltaTime;
@@ -113,8 +112,10 @@ public class PlayerMovement : MonoBehaviour {
         {
             _rigidBody.drag = 0.5f;
             _rigidBody.velocity = Vector2.zero;
-            _rigidBody.AddForce(new Vector2(0, _jumpingHeight), ForceMode2D.Impulse);            
-            _playerState = States.JUMPING_STANDING;
+            _rigidBody.AddForce(new Vector2(0, _jumpingHeight), ForceMode2D.Impulse);
+            if (_playerState == States.WALKING_LEFT) _playerState = States.JUMPING_LEFT;
+            else if (_playerState == States.WALKING_RIGHT) _playerState = States.JUMPING_RIGHT;
+            else if (_playerState == States.IDLE) _playerState = States.JUMPING_STANDING;
         }
         else if(_levCounter<_levLength && !_isFloating)
         {

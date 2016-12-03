@@ -65,8 +65,8 @@ public class ColorController : MonoBehaviour {
 
     public void ChangeColor(float p_r, float p_g, float p_b)
     {
-        _color.r = p_r;
-        _color.g = p_g;
+        _color.r = p_r*2;
+        _color.g = p_g*2;
         _color.b = p_b;
         _changeColor = true;
 

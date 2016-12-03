@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 
 public class Emotions : MonoBehaviour {
+
+    public event Action<float[]> changedEmotions;
       
     private float _rage;
     private float _happiness;
@@ -20,6 +23,16 @@ public class Emotions : MonoBehaviour {
         _playerMovement = GetComponent<PlayerMovement>();
     }
 
+    private void UpdateGuiEmotions()
+    {
+        float[] __values = new float[3];
+        __values[0] = _rage;
+        __values[1] = _happiness;
+        __values[2] = _sadness;
+
+        if (changedEmotions != null) changedEmotions(__values);
+    }
+
     private void Update()
     {        
         if (_raisingEmotion)
@@ -33,14 +46,13 @@ public class Emotions : MonoBehaviour {
             else if (_happiness < 0f) _happiness = 0f;
             if (_sadness > 1f) _sadness = 1f;
             else if (_sadness < 0f) _sadness = 0f;
+            UpdateGuiEmotions();
         }
         ChangeEmotionsEffect();
-    }
-
-   
+    }   
 
     public void SetAllEmotions(bool p_set, float p_rage, float p_happy, float p_sad)
-    {
+    {      
         if(!p_set)
         {
             _rage += p_rage;
@@ -60,12 +72,14 @@ public class Emotions : MonoBehaviour {
         else if (_happiness < 0f) _happiness = 0f;
         if (_sadness > 1f) _sadness = 1f;
         else if (_sadness < 0f) _sadness = 0f;
+
+        UpdateGuiEmotions();
     }
 
     public void ChangeEmotionsEffect()
     {
         _playerMovement.SetJump(_happiness * 5f);
-        _playerMovement.SetWalkSpeed(_happiness * 5, _sadness);
+        _playerMovement.SetWalkSpeed(_rage * 5, _sadness);
     }
 
     public void IsRaisingEmotion(string p_emotion, bool p_raise, float p_rate)
