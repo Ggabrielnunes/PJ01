@@ -10,10 +10,6 @@ public class EmotionItem : MonoBehaviour {
     private bool _isRaising;
     private Emotions _playerEmotions;
 
-    private void Start()
-    {
-    }
-    
     public void OnTriggerEnter2D(Collider2D p_collider)
     {
         if(p_collider.tag=="Player" && _amount>0)
@@ -41,7 +37,7 @@ public class EmotionItem : MonoBehaviour {
     {
         if(_isRaising)
         {
-            if(_amount>0 && _playerEmotions!=null && _playerEmotions.GetEmotion("Rage")<1f)_amount -= _rate * Time.deltaTime;
+            if(_amount>0 && _playerEmotions!=null && _playerEmotions.GetEmotion("Rage")<1f) _amount -= _rate*Time.deltaTime;
             else
             {
                 _playerEmotions.IsRaisingEmotion("", false, 0f);

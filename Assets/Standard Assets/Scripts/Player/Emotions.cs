@@ -146,4 +146,9 @@ public class Emotions : MonoBehaviour {
         else if (p_emotion == "Sadness") return _sadness;
         return 1f;
     }
+
+    public bool IsRaising()
+    {
+        return _raisingEmotion;        
+    }
 }

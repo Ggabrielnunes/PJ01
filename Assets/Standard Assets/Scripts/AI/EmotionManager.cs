@@ -22,6 +22,7 @@ public class EmotionManager : MonoBehaviour {
     private PlayerMovement _playerMovement;
 
     private ColorController[] _allColorControllers;
+    private int _timesDataUpdated = 0;
 
     //Dados salvos a cada três segundos. Últimos três estados (contando o estado atual) são salvos.
     private Data[] _data = new Data[3];    
@@ -61,14 +62,19 @@ public class EmotionManager : MonoBehaviour {
     }
     //Organiza os dados
     private void UpdateAllData()
-    {
+    {       
         _data[2] = _data[1];
         _data[1] = _data[0];
         UpdateDataNow();
 
         float[] __newValues = new float[3];
         __newValues = DataAnalyzer.CalculateEmotionLevels(_data, __newValues);
-        _playerEmotions.SetAllEmotions(false, __newValues[0], __newValues[1], __newValues[2]);
+        if(_timesDataUpdated>=3 && !_playerEmotions.IsRaising())
+        {
+            _playerEmotions.SetAllEmotions(false, __newValues[0], __newValues[1], __newValues[2]);
+        }
+
+        if (_timesDataUpdated < 3) _timesDataUpdated++;
     }
 	// Update is called once per frame
 	void Update () {

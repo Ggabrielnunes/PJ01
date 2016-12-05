@@ -76,6 +76,7 @@
     <Compile Include="Assets\Standard Assets\Scripts\Player\PlayerMovement.cs" />
     <Compile Include="Assets\Standard Assets\Scripts\UI\GameGuiManager.cs" />
     <Compile Include="Assets\Standard Assets\Scripts\UI\GameManager.cs" />
+    <Compile Include="Assets\Standard Assets\Scripts\UI\MainMenu.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>
