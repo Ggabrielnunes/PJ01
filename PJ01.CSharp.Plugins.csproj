@@ -70,6 +70,7 @@
     <Compile Include="Assets\Standard Assets\Scripts\AI\DataAnalyzer.cs" />
     <Compile Include="Assets\Standard Assets\Scripts\AI\EmotionManager.cs" />
     <Compile Include="Assets\Standard Assets\Scripts\BaseHealth.cs" />
+    <Compile Include="Assets\Standard Assets\Scripts\BreakeableObject.cs" />
     <Compile Include="Assets\Standard Assets\Scripts\EmotionItem.cs" />
     <Compile Include="Assets\Standard Assets\Scripts\Player\Emotions.cs" />
     <Compile Include="Assets\Standard Assets\Scripts\Player\PlayerHealth.cs" />

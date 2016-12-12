@@ -20,17 +20,17 @@ public class DataAnalyzer : MonoBehaviour {
                 p_values[2] += 0.05f;
             }
         }
-        else
+        else if (p_data[0].health > p_data[1].health)
         {
             if (p_data[1].health < p_data[2].health)
             {
                 p_values[0] -= 0.05f;
                 p_values[1] += 0.05f;
             }
-            else
+            else if (p_data[1].health > p_data[2].health)
             {
                 p_values[0] -= 0.1f;
-                p_values[2] += 0.1f;
+                p_values[1] += 0.1f;
             }
         }
         return p_values;
@@ -323,11 +323,14 @@ public class DataAnalyzer : MonoBehaviour {
         {
             if(__averageValues[i]>7)
             {
-                p_values[i] = p_values[i] * 2f;
+                if (p_values[i] < 0) p_values[i] = p_values[i] * 2f;
+                else p_values[i] = p_values[i] * 0.7f;
             }
-            else if (__averageValues[i] > 4)
+            else if (__averageValues[i] > 4 && p_values[i] > 0)p_values[i] = p_values[i] * 1.5f;            
+            else
             {
-                p_values[i] = p_values[i] * 1.5f;
+                if (p_values[i] > 0) p_values[i] = p_values[i] * 2f;
+                else p_values[i] = p_values[i] * 0.7f;
             }
         }
         return p_values;

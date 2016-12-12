@@ -36,6 +36,8 @@ public class PlayerMovement : MonoBehaviour {
     private Rigidbody2D _rigidBody;
     private bool _grounded = true;
     private bool _isFloating = false;
+    private bool _walkingRight = false;
+    private bool _walkingLeft = false;
     private float _linearDrag = 7f;
     private float _minMoveSpeed = 1.5f;
     private float _maxMoveSpeed = 5f;
@@ -70,21 +72,11 @@ public class PlayerMovement : MonoBehaviour {
         {
             _levCounter -= Time.deltaTime;
         }
-        if(Input.GetKey(KeyCode.LeftArrow))
-        {
-            MoveLeft();
-        }
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            MoveRight();
-        }
-        if(Input.GetKeyDown(KeyCode.UpArrow))
-        {            
-            Jump();
-        }
+        if (_walkingLeft) MoveLeft();
+        else if (_walkingRight) MoveRight();
     }
 
-    public void MoveRight()
+    private void MoveRight()
     {
         RaycastHit2D __hit = Physics2D.Raycast(transform.position, new Vector2(1f,0),0.5f, _layerMask);
         if (!__hit)
@@ -95,7 +87,7 @@ public class PlayerMovement : MonoBehaviour {
         }
     }
 
-    public void MoveLeft()
+    private void MoveLeft()
     {
         RaycastHit2D __hit = Physics2D.Raycast(transform.position, new Vector2(-1f, 0), 0.5f, _layerMask);
         if (!__hit)
@@ -126,8 +118,15 @@ public class PlayerMovement : MonoBehaviour {
 
     public void Stop()
     {
+        _walkingLeft = _walkingRight = false;
         if (_grounded) _playerState = States.IDLE;
         else _playerState = States.JUMPING_STANDING;
+    }
+
+    public void Move(bool p_right)
+    {
+        _walkingRight = p_right ? true : false;
+        _walkingLeft = p_right ? false : true;
     }
 
     public void SetJump(float p_height)
