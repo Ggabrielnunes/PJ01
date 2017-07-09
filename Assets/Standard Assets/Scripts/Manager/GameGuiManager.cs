@@ -8,6 +8,14 @@ public class GameGuiManager : MonoBehaviour {
     public Slider healthSlider;
     public GameObject[] keys;
 
+    public void MInitialize()
+    {
+        for (int i = 0; i < keys.Length; i++)
+        {
+            keys[i].SetActive(false);
+        }
+    }
+
     public void UpdateEmotionSliders(float[] p_newSlider)
     {
         for (int i = 0; i < emotionSliders.Length; i++)
