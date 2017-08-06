@@ -38,6 +38,14 @@ public class PlayerMovement : MonoBehaviour {
     private bool _isFloating = false;
     private bool _walkingRight = false;
     private bool _walkingLeft = false;
+
+    private bool _toss = false;
+    public bool toss
+    {
+        get { return _toss; }
+        set { _toss = value; }
+    }
+
     private float _linearDrag = 7f;
     private float _minMoveSpeed = 1.5f;
     private float _maxMoveSpeed = 5f;
@@ -45,6 +53,7 @@ public class PlayerMovement : MonoBehaviour {
     private float _maxJumpingHeight=3f;
     private float _speedMult;
     private float _levCounter = 0;
+
           
     private void Awake()
     {
@@ -58,7 +67,7 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     private void Update()
-    {
+    {        
         if(_isFloating && _levCounter < _levLength)
         {
             _levCounter += Time.deltaTime;
@@ -72,8 +81,15 @@ public class PlayerMovement : MonoBehaviour {
         {
             _levCounter -= Time.deltaTime;
         }
-        if (_walkingLeft) MoveLeft();
-        else if (_walkingRight) MoveRight();
+        if(!_toss)
+        {
+            if (_walkingLeft) MoveLeft();
+            else if (_walkingRight) MoveRight();
+        }
+        else if(isGrounded())
+        {
+            _toss = false;
+        }
     }
 
     private void MoveRight()

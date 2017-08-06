@@ -2,8 +2,7 @@
 using System.Collections;
 
 public class ColorController : MonoBehaviour {
-
-
+    
     private SpriteRenderer _thisSprite;
     private Color _color;
     

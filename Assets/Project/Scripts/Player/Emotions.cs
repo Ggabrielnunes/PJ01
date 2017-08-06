@@ -4,7 +4,7 @@ using System.Collections;
 
 public class Emotions : MonoBehaviour {
 
-    public event Action<float[]> changedEmotions;
+    public event Action<float[]> onChangedEmotions;
       
     private float _rage;
     private float _happiness;
@@ -23,14 +23,14 @@ public class Emotions : MonoBehaviour {
         _playerMovement = GetComponent<PlayerMovement>();
     }
 
-    private void UpdateGuiEmotions()
+    private void UpdateEmotions()
     {
         float[] __values = new float[3];
         __values[0] = _rage;
         __values[1] = _happiness;
         __values[2] = _sadness;
 
-        if (changedEmotions != null) changedEmotions(__values);
+        if (onChangedEmotions != null) onChangedEmotions(__values);
     }
 
     private void Update()
@@ -46,7 +46,7 @@ public class Emotions : MonoBehaviour {
             else if (_happiness < 0f) _happiness = 0f;
             if (_sadness > 1f) _sadness = 1f;
             else if (_sadness < 0f) _sadness = 0f;
-            UpdateGuiEmotions();
+            UpdateEmotions();
         }
         ChangeEmotionsEffect();
     }   
@@ -73,7 +73,7 @@ public class Emotions : MonoBehaviour {
         if (_sadness > 1f) _sadness = 1f;
         else if (_sadness < 0f) _sadness = 0f;
 
-        UpdateGuiEmotions();
+        UpdateEmotions();
     }
 
     public void ChangeEmotionsEffect()

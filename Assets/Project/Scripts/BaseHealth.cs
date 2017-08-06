@@ -12,13 +12,14 @@ public class BaseHealth : MonoBehaviour {
     [SerializeField] protected float _health;
     [Tooltip("Deactivate unit X seconds after death. If set to 0, unit will not deactivate upon death")]
     [SerializeField] protected float _onDeathDeactivateTime;
+    [SerializeField] protected Rigidbody2D _rigidBody;
     
     protected virtual void OnDeath()
     {
         if (_onDeathDeactivateTime > 0) StartCoroutine(DeactivateOnDeath(_onDeathDeactivateTime));
     }
 
-    public virtual void Damage(float p_damage)
+    public virtual void DamageUnit(float p_damage)
     {
         if (_health > 0) _health -= p_damage;
         if (_health <= 0) OnDeath();

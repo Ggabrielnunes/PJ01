@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour {
     public GameGuiManager guiManager;
     public EmotionManager emotionManager;
     public KeyManager keyManager;
+    public EnemyManager enemyManager;
 
     private Emotions _playerEmotions;
     private PlayerHealth _playerHealth;
@@ -18,10 +19,12 @@ public class GameManager : MonoBehaviour {
 
         guiManager.MInitialize();
         keyManager.MInitialize();
+        enemyManager.MInitialize();
 
-        _playerEmotions.changedEmotions += delegate (float[] p_values)
+        _playerEmotions.onChangedEmotions += delegate (float[] p_values)
         {
             guiManager.UpdateEmotionSliders(p_values);
+            enemyManager.UpdateEnemyEmotions(p_values);
         };
 
         keyManager.onGotKey += delegate (int p_key)
