@@ -3,37 +3,31 @@ using System.Collections;
 
 public class DataAnalyzer : MonoBehaviour {
 
-    private static float[] AnalyzeHealth(Data[] p_data, float[] p_values)
+    private static float AnalyzeHealth(Data[] p_data, float p_value)
     {
         if (p_data[0].health < p_data[1].health)
         {
             if (p_data[1].health < p_data[2].health)
             {
-                p_values[0] += 0.2f;
-                p_values[1] -= 0.1f;
-                p_values[2] += 0.08f;
+                p_value -= 0.1f;
             }
             else
             {
-                p_values[0] += 0.1f;
-                p_values[1] -= 0.05f;
-                p_values[2] += 0.05f;
+                p_value -= 0.2f;
             }
         }
         else if (p_data[0].health > p_data[1].health)
         {
             if (p_data[1].health < p_data[2].health)
             {
-                p_values[0] -= 0.05f;
-                p_values[1] += 0.05f;
+                p_value += 0.2f;
             }
             else if (p_data[1].health > p_data[2].health)
             {
-                p_values[0] -= 0.1f;
-                p_values[1] += 0.1f;
+                p_value += 0.1f;
             }
         }
-        return p_values;
+        return p_value;
     }
 
     private static int AnalyzeState(Data[] p_data)
@@ -65,12 +59,7 @@ public class DataAnalyzer : MonoBehaviour {
         }
         return __value;
     }
-
-    private static int AnalyzeSanity(Data[] p_data)
-    {
-        return 0;
-    }
-  
+      
     private static MoveType AnalyzeMovement(Data[] p_data)
     {
         var __distanceNow = Vector2.Distance(p_data[0].position, p_data[1].position);
@@ -118,7 +107,7 @@ public class DataAnalyzer : MonoBehaviour {
         }
     }  
    
-    private static float[] CalculateMovements(Data[] p_data, float[] p_values)
+    private static float CalculateMovements(Data[] p_data, float p_value)
     {
         var __state = AnalyzeState(p_data);
         var __moveType = AnalyzeMovement(p_data);
@@ -130,42 +119,58 @@ public class DataAnalyzer : MonoBehaviour {
             {
                 if (__state > 40)
                 {
-                    p_values[0] -= 0.01f;
-                    p_values[1] += 0.02f;
-                    p_values[2] -= 0.02f;
+                    p_value += 0.02f;
                 }
                 else if (__state > 20)
                 {
-                    p_values[1] += 0.01f;
-                    p_values[2] -= 0.2f;
+                    p_value += 0.01f;
                 } 
                 else
-                {
-                    p_values[1] -= 0.02f;
-                    p_values[2] += 0.01f;
+                {                    
+                    if (p_value < -0.1f)
+                    {
+                        p_value += 0.01f;
+                    }
+                    else
+                    {
+                        p_value -= 0.01f;
+                    }
                 }
             }
             else if (__moveType == MoveType.ERRATIC)
             {
                 if (__state > 40)
                 {
-                    p_values[0] += 0.02f;
-                    p_values[1] -= 0.01f;
+                    p_value -= 0.02f;
                 }
                 else if (__state < 20)
                 {
-                    p_values[0] += 0.02f;
-                    p_values[1] += 0.01f;
-                    p_values[2] -= 0.01f;
+                    p_value -= 0.01f;
                 }
             }
             else
             {
-                if (__state > 40) p_values[0] += 0.01f;
+                if (__state > 40)
+                {
+                    if (p_value < -0.1f)
+                    {
+                        p_value += 0.01f;
+                    }
+                    else
+                    {
+                        p_value -= 0.01f;
+                    }
+                }
                 else if (__state < 20)
                 {
-                    p_values[1] -= 0.02f;
-                    p_values[2] += 0.01f;
+                    if (p_value < -0.1f)
+                    {
+                        p_value += 0.02f;
+                    }
+                    else
+                    {
+                        p_value -= 0.02f;
+                    }
                 }
             }
         }
@@ -173,44 +178,68 @@ public class DataAnalyzer : MonoBehaviour {
         {
             if (__moveType == MoveType.ADVANCE)
             {
-                if (__state > 40) p_values[1] += 0.01f;
+                if (__state > 40)
+                {
+                    if(p_value<0.2f)
+                    {
+                        p_value += 0.03f;
+                    }
+                    else
+                    {
+                        p_value += 0.02f;
+                    }
+                }
                 else if (__state > 20)
                 {
-                    p_values[0] += 0.01f;
-                    p_values[1] -= 0.01f;
+                    if(p_value>-0.4f)
+                    {
+                        p_value -= 0.03f;
+                    }
+                    else
+                    {
+                        p_value -= 0.02f;
+                    }
                 }
                 else
                 {
-                    p_values[0] += 0.01f;
-                    p_values[1] -= 0.02f;
-                    p_values[2] += 0.02f;
+                    p_value -= 0.01f;
                 }
             }
             else if (__moveType == MoveType.ERRATIC)
             {
                 if (__state > 40)
                 {
-                    p_values[0] += 0.02f;
-                    p_values[1] += 0.01f;
+                    if (p_value < -0.4f)
+                    {
+                        p_value -= 0.02f;
+                    }
+                    else p_value -= 0.03f;
                 }
                 else if (__state < 20)
                 {
-                    p_values[0] += 0.03f;
-                    p_values[1] -= 0.02f;
-                    p_values[2] += 0.02f;
+                    p_value -= 0.04f;
                 }
             }
             else
             {
                 if (__state > 40)
                 {
-                    p_values[0] += 0.01f;
-                    p_values[1] -= 0.01f;
+                    if (p_value < -0.4f)
+                    {
+                        p_value -= 0.01f;
+                    }
+                    else p_value -= 0.02f;
                 }
                 else if (__state < 20)
                 {
-                    p_values[1] -= 0.01f;
-                    p_values[2] += 0.01f;
+                    if (p_value < -0.1f)
+                    {
+                        p_value += 0.02f;
+                    }
+                    else
+                    {
+                        p_value -= 0.02f;
+                    }
                 }
             }
         }
@@ -220,43 +249,102 @@ public class DataAnalyzer : MonoBehaviour {
             {
                 if (__state > 40)
                 {
-                    p_values[0] -= 0.02f;
-                    p_values[1] += 0.02f;
-                    p_values[2] -= 0.02f;
+                  if(p_value<0.4f)
+                   {
+                        p_value += 0.03f;
+                   }
+                  else
+                   {
+                        p_value += 0.02f;
+                   }
                 }
                 else if (__state > 20)
                 {
-                    p_values[0] -= 0.01f;
-                    p_values[0] += 0.01f;
-                    p_values[1] -= 0.02f;
+                    if (p_value < 0.4f)
+                    {
+                        p_value += 0.02f;
+                    }
+                    else
+                    {
+                        p_value += 0.01f;
+                    }
                 }
                 else
                 {
-                    p_values[0] += 0.02f;
-                    p_values[1] -= 0.01f;
+                    p_value += 0.02f;
                 }
             }
             else if (__moveType == MoveType.ERRATIC)
             {
                 if (__state > 40)
                 {
-                    p_values[0] += 0.02f;
-                    p_values[2] += 0.01f;
+                    if (p_value > 0.4f)
+                    {
+                        p_value -= 0.03f;
+                    }
+                    else if (p_value < -0.4f)
+                    {
+                        p_value += 0.03f;
+                    }
+                    else
+                    {
+                        if(p_value>0)
+                        {
+                            p_value -= 0.01f;
+                        }
+                        else
+                        {
+                            p_value += 0.01f;
+                        }
+                    }
                 }
                 else if (__state < 20)
                 {
-                    p_values[0] += 0.01f;
-                    p_values[1] += 0.01f;
+                    if (p_value > 0.4f)
+                    {
+                        p_value -= 0.04f;
+                    }
+                    else 
+                    {
+                        p_value -= 0.02f;
+                    }
                 }
             }
             else
             {
-                if (__state > 40) p_values[0] += 0.02f;
+                if (__state > 40)
+                {
+                    if (p_value > 0.4f)
+                    {
+                        p_value -= 0.02f;
+                    }
+                    else
+                    {
+                        p_value -= 0.01f;
+                    }
+                }
                 else if (__state < 20)
                 {
-                    p_values[0] += 0.01f;
-                    p_values[1] -= 0.02f;
-                    p_values[2] += 0.03f;
+                    if(p_value<-0.4f)
+                    {
+                        p_value += 0.03f;
+                    }
+                    else
+                    if (p_value > 0.4f)
+                    {
+                        p_value -= 0.02f;
+                    }
+                    else
+                    {
+                        if (p_value > 0)
+                        {
+                            p_value -= 0.01f;
+                        }
+                        else
+                        {
+                            p_value += 0.01f;
+                        }
+                    }
                 }
             }
         }
@@ -266,73 +354,93 @@ public class DataAnalyzer : MonoBehaviour {
             {
                 if (__state > 40)
                 {
-                    p_values[0] -= 0.1f;
-                    p_values[1] += 0.03f;
-                    p_values[2] -= 0.02f;
+                    if (p_value < 0.4f)
+                    {
+                        p_value += 0.04f;
+                    }
+                    else
+                    {
+                        p_value += 0.03f;
+                    }
                 }
                 else if (__state > 20)
                 {
-                    p_values[0] -= 0.01f;
-                    p_values[1] += 0.01f;
+                    if (p_value < 0.4f)
+                    {
+                        p_value += 0.03f;
+                    }
+                    else
+                    {
+                        p_value += 0.02f;
+                    }
                 }
                 else
                 {
-                    p_values[0] += 0.02f;
-                    p_values[1] -= 0.01f;
-                    p_values[2] += 0.01f;
+                    if(p_value<-0.3f)
+                    {
+                        p_value -= 0.02f;
+                    }
+                    else if (p_value > 0.3f)
+                    {
+                        p_value -= 0.04f;
+                    }
+                    else
+                    {
+                        p_value -= 0.03f;
+                    }
                 }
             }
             else if (__moveType == MoveType.ERRATIC)
             {
                 if (__state > 40)
                 {
-                    p_values[0] += 0.03f;
-                    p_values[2] += 0.02f;
+                    if (p_value < -0.3f)
+                    {
+                        p_value -= 0.03f;
+                    }
+                    else if (p_value > 0.3f)
+                    {
+                        p_value -= 0.05f;
+                    }
+                    else
+                    {
+                        p_value -= 0.02f;
+                    }
                 }
                 else if (__state < 20)
                 {
-                    p_values[0] += 0.02f;
-                    p_values[2] += 0.01f;
+
+                    if (p_value < -0.3f)
+                    {
+                        p_value -= 0.02f;
+                    }
+                    else
+                    {
+                        p_value -= 0.02f;
+                    }
                 }
             }
             else
             {
-                if (__state > 40) p_values[0] += 0.02f;
+                if (__state > 40)p_value -= 0.02f;
                 else if (__state < 20)
                 {
-                    p_values[0] += 0.03f;
-                    p_values[1] -= 0.02f;
-                    p_values[2] += 0.02f;
+                    if(p_value > -0.3f)
+                    {
+                        p_value -= 0.05f;
+                    }
+                    else p_value -= 0.03f;
                 }
             }
         }
-        return p_values;
+        return p_value;
     }
 
     //Modifica os valores de emoções recebidos
-    public static float[] CalculateEmotionLevels(Data[] p_data, float[] p_values)
+    public static float CalculateEmotionLevels(Data[] p_data, float p_value)
     {
-        p_values = AnalyzeHealth(p_data, p_values);
-        p_values = CalculateMovements(p_data, p_values);
-        float[] __averageValues = new float[3];
-        __averageValues[0] = (p_data[0].rage + p_data[1].rage + p_data[2].rage) / 3;
-        __averageValues[1] = (p_data[0].happiness + p_data[1].happiness + p_data[2].happiness) / 3;
-        __averageValues[2] = (p_data[0].sadness + p_data[1].sadness + p_data[2].sadness) / 3;
-
-        for(int i = 0; i < __averageValues.Length;i++)
-        {
-            if(__averageValues[i]>7)
-            {
-                if (p_values[i] < 0) p_values[i] = p_values[i] * 2f;
-                else p_values[i] = p_values[i] * 0.7f;
-            }
-            else if (__averageValues[i] > 4 && p_values[i] > 0)p_values[i] = p_values[i] * 1.5f;            
-            else
-            {
-                if (p_values[i] > 0) p_values[i] = p_values[i] * 2f;
-                else p_values[i] = p_values[i] * 0.7f;
-            }
-        }
-        return p_values;
+        p_value = AnalyzeHealth(p_data, p_value);
+        p_value = CalculateMovements(p_data, p_value);     
+        return p_value;
     }
 }

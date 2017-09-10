@@ -11,9 +11,9 @@ public class BreakeableObject : MonoBehaviour {
         if (p_collider.tag == "Player")
         {
             if (_playerEmotions == null) _playerEmotions = p_collider.GetComponent<Emotions>();
-            if(_playerEmotions.GetRage()>=requiredRage)
+            if(_playerEmotions.GetMood()<=requiredRage)
             {
-                _playerEmotions.SetAllEmotions(false, -requiredRage, 0, 0);
+                _playerEmotions.SetMood(false, requiredRage*0.5f);
                 gameObject.SetActive(false);
             }
         }

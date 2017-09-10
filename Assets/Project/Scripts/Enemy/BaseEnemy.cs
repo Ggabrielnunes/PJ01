@@ -3,15 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BaseEnemy : MonoBehaviour {
-
-    public enum emotion
-    {
-        RAGE,
-        HAPPY,
-        SAD
-    }
     
-    public emotion mainEmotion;
     public float activeThreshold;
     public float inactiveThreshold;    
 
@@ -25,13 +17,13 @@ public class BaseEnemy : MonoBehaviour {
 
     }
 
-    public void UpdateEmotion(float[] p_playerEmotions)
+    public void UpdateEmotion(float p_playerMood)
     {
-        if(p_playerEmotions[(int)mainEmotion]>activeThreshold)
+        if(p_playerMood>activeThreshold)
         {
             ActivateEnemy(true);
         }
-        else if (p_playerEmotions[(int)mainEmotion]<inactiveThreshold)
+        else if (p_playerMood<inactiveThreshold)
         {
             ActivateEnemy(false);
         }

@@ -25,8 +25,8 @@ public class PlayerMovement : MonoBehaviour {
     [SerializeField] private LayerMask _layerMask;
     [Tooltip("LayerMask for Jump")]
     [SerializeField] private LayerMask _jumpLayerMask;
-    [Tooltip("Movement Speed while standing")]
-    [SerializeField] private float _standingMoveSpeed = 2.5f;
+    [Tooltip("Movement Speed")]
+    [SerializeField] private float _standardMovingSpeed = 2.5f;
     [Tooltip("Jumping Height")]
     [SerializeField] private float _jumpingHeight = 2.5f;
     [Tooltip("Levitation length")]
@@ -34,6 +34,7 @@ public class PlayerMovement : MonoBehaviour {
 
     private States _playerState = States.IDLE; 
     private Rigidbody2D _rigidBody;
+    private float _moveSpeed;
     private bool _grounded = true;
     private bool _isFloating = false;
     private bool _walkingRight = false;
@@ -46,9 +47,7 @@ public class PlayerMovement : MonoBehaviour {
         set { _toss = value; }
     }
 
-    private float _linearDrag = 7f;
-    private float _minMoveSpeed = 1.5f;
-    private float _maxMoveSpeed = 5f;
+    private float _linearDrag = 7f;    
     private float _minJumpingHeight=1.8f;
     private float _maxJumpingHeight=3f;
     private float _speedMult;
@@ -58,6 +57,7 @@ public class PlayerMovement : MonoBehaviour {
     private void Awake()
     {
         _rigidBody = GetComponent<Rigidbody2D>();
+        _moveSpeed = _standardMovingSpeed;
     }
 
     private bool isGrounded()
@@ -97,7 +97,7 @@ public class PlayerMovement : MonoBehaviour {
         RaycastHit2D __hit = Physics2D.Raycast(transform.position, new Vector2(1f,0),0.5f, _layerMask);
         if (!__hit)
         {
-            transform.Translate(_standingMoveSpeed * Time.deltaTime, 0, 0);
+            transform.Translate(_moveSpeed * Time.deltaTime, 0, 0);
             if (!_grounded) _playerState = States.JUMPING_RIGHT;
             else _playerState = States.WALKING_RIGHT;
         }
@@ -108,7 +108,7 @@ public class PlayerMovement : MonoBehaviour {
         RaycastHit2D __hit = Physics2D.Raycast(transform.position, new Vector2(-1f, 0), 0.5f, _layerMask);
         if (!__hit)
         {
-            transform.Translate(-_standingMoveSpeed * Time.deltaTime, 0, 0);
+            transform.Translate(-_moveSpeed * Time.deltaTime, 0, 0);
             if (!_grounded) _playerState = States.JUMPING_LEFT;
             else _playerState = States.WALKING_LEFT;
         }
@@ -152,14 +152,13 @@ public class PlayerMovement : MonoBehaviour {
         else if (_jumpingHeight < _minJumpingHeight) _jumpingHeight = _minJumpingHeight;
     }
 
-    public void SetWalkSpeed(float p_happySpeed, float p_sadSpeed)
+    public void SetWalkSpeed(float p_mood)
     {
-        if (p_sadSpeed >= 0.8f) _standingMoveSpeed = p_happySpeed / 2;
-        else if (p_sadSpeed >= 0.3f && p_sadSpeed < 0.8f) _standingMoveSpeed = p_happySpeed * 0.7f;
-        else if (p_sadSpeed < 0.3f) _standingMoveSpeed = p_happySpeed;
-
-        if (_standingMoveSpeed < _minMoveSpeed) _standingMoveSpeed = _minMoveSpeed;
-        else if (_standingMoveSpeed > _maxMoveSpeed) _standingMoveSpeed = _maxMoveSpeed;
+        if (p_mood >= 0.8f) _moveSpeed = _standardMovingSpeed * 1.5f;
+        else if (p_mood >= 0.6f) _moveSpeed = _standardMovingSpeed * 1.2f;
+        else if (p_mood >= 0.4f || p_mood <= -0.4f) _moveSpeed = _standardMovingSpeed;
+        else if (p_mood >= 0.2f || p_mood <= -0.2f) _moveSpeed = _standardMovingSpeed * 0.7f;
+        else if (p_mood >= -0.1f && p_mood <= 0.1f) _moveSpeed = _standardMovingSpeed * 0.5f;
     }
 
     public Vector2 GetPosition()

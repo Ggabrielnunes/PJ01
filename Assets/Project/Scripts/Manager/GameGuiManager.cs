@@ -16,11 +16,11 @@ public class GameGuiManager : MonoBehaviour {
         }
     }
 
-    public void UpdateEmotionSliders(float[] p_newSlider)
+    public void UpdateEmotionSlider(float p_newSlider)
     {
         for (int i = 0; i < emotionSliders.Length; i++)
         {
-            emotionSliders[i].value = p_newSlider[i];
+            emotionSliders[i].value = p_newSlider;
         }
     }
 

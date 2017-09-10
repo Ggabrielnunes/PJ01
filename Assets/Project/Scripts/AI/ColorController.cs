@@ -64,33 +64,100 @@ public class ColorController : MonoBehaviour {
         return __newColor;
     }
 
-    public void ChangeColor(float p_r, float p_g, float p_b)
+    public void ChangeColor(float p_mood)
     {
-        _color.r = p_r*2;
-        _color.g = p_g*2;
-        _color.b = p_b;
+        switch(PlayerState(p_mood))
+        {
+            case 0:
+                _color.r = 1f;
+                _color.g = 0.0f;
+                _color.b = 0.0f;
+                break;
+            case 1:
+                _color.r = 0.825f;
+                _color.g = 0.075f;
+                _color.b = 0.075f;
+                break;
+            case 2:
+                _color.r = 0.65f;
+                _color.g = 0.15f;
+                _color.b = 0.15f;
+                break;
+            case 3:
+                _color.r = 0.475f;
+                _color.g = 0.225f;
+                _color.b = 0.225f;
+                break;
+            case 4:
+                _color.r = 0.3f;
+                _color.g = 0.3f;
+                _color.b = 0.3f;
+                break;
+            case 5:
+                _color.r = 0.475f;
+                _color.g = 0.475f;
+                _color.b = 0.225f;
+                break;
+            case 6:
+                _color.r = 0.65f;
+                _color.g = 0.65f;
+                _color.b = 0.15f;
+                break;
+            case 7:
+                _color.r = 0.825f;
+                _color.g = 0.825f;
+                _color.b = 0.075f;
+                break;
+            case 8:
+                _color.r = 1f;
+                _color.g = 1f;
+                _color.b = 0.0f;
+                break;
+        }
         _changeColor = true;
-
-        if (_color.r > 1f) _color.r = 1f;
-        else if (_color.r < 0.3f) _color.r = 0.3f;
-        if (_color.g > 1f) _color.g = 1f;
-        else if (_color.g < 0.3f) _color.g = 0.3f;
-        if (_color.b > 1f) _color.b = 1f;
-        else if (_color.b < 0.3f) _color.b = 0.3f;
     }
 
-    public void ToYellow(float p_happiness)
+    private int PlayerState(float p_mood)
     {
-
+        if(p_mood<= -0.8f)
+        {
+            return 0;
+        }
+        else if (p_mood <= -0.6f)
+        {
+            return 1;
+        }
+        else if (p_mood <= -0.4f)
+        {
+            return 2;
+        }
+        else if (p_mood <= -0.2f)
+        {
+            return 3;
+        }
+        else if (p_mood <= 0.0f)
+        {
+            return 4;
+        }
+        else if (p_mood <= 0.2f)
+        {
+            return 5;
+        }
+        else if (p_mood <= 0.4f)
+        {
+            return 6;
+        }
+        else if (p_mood <= 0.6f)
+        {
+            return 7;
+        }
+        else if (p_mood <= 0.8f)
+        {
+            return 8;
+        }
+        else 
+        {
+            return 9;
+        }
     }
-
-    public void ToRed(float p_rage)
-    {
-
-    }
-
-    public void ToGrey(float p_sad)
-    {
-
-    }    
 }

@@ -3,7 +3,14 @@ using System.Collections;
 
 public class EmotionItem : MonoBehaviour {
 
-    [SerializeField] private string _emotion;
+    public enum Emotion
+    {
+        HAPPY,
+        RAGE,
+        SAD
+    }
+
+    [SerializeField] private Emotion _emotion;
     [SerializeField] private float _amount;
     [SerializeField] private float _rate;
 
@@ -15,11 +22,16 @@ public class EmotionItem : MonoBehaviour {
         if(p_collider.tag=="Player" && _amount>0)
         {
             if (_playerEmotions == null) _playerEmotions = p_collider.GetComponent<Emotions>();
-            if(_playerEmotions.GetEmotion(_emotion)<1f)
+            if(_emotion!=Emotion.SAD)
             {
-                _playerEmotions.IsRaisingEmotion(_emotion, true, _rate);
-                _isRaising = true;
+                _playerEmotions.IsRaisingEmotion(true, _rate);
             }
+            else
+            {
+                _playerEmotions.RaisingToSad(true, _rate);
+            }
+
+            _isRaising = true;
         }
     }
 
@@ -28,7 +40,7 @@ public class EmotionItem : MonoBehaviour {
         if(p_collider.tag=="Player")
         {
             if (_playerEmotions == null) _playerEmotions = p_collider.GetComponent<Emotions>();            
-            _playerEmotions.IsRaisingEmotion("",false,0f);
+            _playerEmotions.IsRaisingEmotion(false,0f);
             _isRaising = false;
         }
     }
@@ -37,10 +49,10 @@ public class EmotionItem : MonoBehaviour {
     {
         if(_isRaising)
         {
-            if(_amount>0 && _playerEmotions!=null && _playerEmotions.GetEmotion("Rage")<1f) _amount -= _rate*Time.deltaTime;
+            if (_amount > 0 && _playerEmotions != null) _amount -= _rate * Time.deltaTime;
             else
             {
-                _playerEmotions.IsRaisingEmotion("", false, 0f);
+                _playerEmotions.IsRaisingEmotion(false, 0f);
                 _isRaising = false;
             }
         }
@@ -54,10 +66,25 @@ public class EmotionItem : MonoBehaviour {
     public float GetAmount()
     {
         return _amount;
-    }
+    }    
 
-    public string GetEmotion()
+    private bool CanRaise()
     {
-        return _emotion;
+        switch(_emotion)
+        {
+            case Emotion.HAPPY:
+                if (_playerEmotions.GetMood() < 1f)
+                    return true;
+                else return false;
+            case Emotion.RAGE:
+                if (_playerEmotions.GetMood() > -1f)
+                    return true;
+                else return false;
+            case Emotion.SAD:
+                if (_playerEmotions.GetMood() > -0.3f && _playerEmotions.GetMood() < 0.3f)
+                    return true;
+                else return false;
+        }
+        return false;
     }
 }

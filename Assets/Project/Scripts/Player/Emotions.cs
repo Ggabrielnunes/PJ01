@@ -4,147 +4,99 @@ using System.Collections;
 
 public class Emotions : MonoBehaviour {
 
-    public event Action<float[]> onChangedEmotions;
-      
-    private float _rage;
-    private float _happiness;
-    private float _sadness;
+    public event Action<float> onChangedEmotions;
 
-    private bool _raisingEmotion=false;
-    private float _rageRate=0;
-    private float _happyRate=0;
-    private float _sadRate=0;
+    private float _mood;
+
+    private bool _raisingEmotion = false;
+    private bool _raiseToSad = false;
+    private float _changeRate;
 
     private PlayerMovement _playerMovement;
 
     private void Start()
     {
-        _rage = _happiness = _sadness = 0.5f;
+        _mood = 0.5f;
         _playerMovement = GetComponent<PlayerMovement>();
     }
 
-    private void UpdateEmotions()
-    {
-        float[] __values = new float[3];
-        __values[0] = _rage;
-        __values[1] = _happiness;
-        __values[2] = _sadness;
-
-        if (onChangedEmotions != null) onChangedEmotions(__values);
-    }
-
     private void Update()
-    {        
+    {
         if (_raisingEmotion)
         {
-            _rage += _rageRate * Time.deltaTime;
-            _happiness += _happyRate * Time.deltaTime;
-            _sadness += _sadRate * Time.deltaTime;
-            if (_rage > 1f) _rage = 1f;
-            else if (_rage < 0f) _rage = 0f;
-            if (_happiness > 1f) _happiness = 1f;
-            else if (_happiness < 0f) _happiness = 0f;
-            if (_sadness > 1f) _sadness = 1f;
-            else if (_sadness < 0f) _sadness = 0f;
-            UpdateEmotions();
+            if(_raiseToSad)
+            {
+                if (_mood > 0) _mood -= _changeRate * Time.deltaTime;
+                else _mood += _changeRate * Time.deltaTime;
+            }
+            else
+            {
+                _mood += _changeRate * Time.deltaTime;
+                if (_mood > 1f) _mood = 1f;
+                else if (_mood < -1f) _mood = 1f;
+            }
+            if (onChangedEmotions != null) onChangedEmotions(_mood);
         }
         ChangeEmotionsEffect();
-    }   
+    }
 
-    public void SetAllEmotions(bool p_set, float p_rage, float p_happy, float p_sad)
-    {      
-        if(!p_set)
+    public void SetMood(bool p_set, float p_mood)
+    {
+        if (!p_set)
         {
-            _rage += p_rage;
-            _happiness += p_happy;
-            _sadness += p_sad;
+            _mood += p_mood;
         }
         else
         {
-            _rage = p_rage;
-            _happiness = p_happy;
-            _sadness = p_sad;
+            _mood = p_mood;
         }
 
-        if (_rage > 1f) _rage = 1f;
-        else if (_rage < 0f) _rage = 0f;
-        if (_happiness > 1f) _happiness = 1f;
-        else if (_happiness < 0f) _happiness = 0f;
-        if (_sadness > 1f) _sadness = 1f;
-        else if (_sadness < 0f) _sadness = 0f;
-
-        UpdateEmotions();
+        if (_mood > 1f) _mood = 1f;
+        else if (_mood < -1f) _mood = -1f;
+        if (onChangedEmotions != null) onChangedEmotions(_mood);
     }
 
     public void ChangeEmotionsEffect()
     {
-        _playerMovement.SetJump(_happiness * 5f);
-        _playerMovement.SetWalkSpeed(_rage * 5, _sadness);
+        _playerMovement.SetWalkSpeed(_mood);
+        _playerMovement.SetJump(_mood * 5f);
     }
 
-    public void IsRaisingEmotion(string p_emotion, bool p_raise, float p_rate)
+    public void IsRaisingEmotion(bool p_raise, float p_rate)
     {
-        if(!p_raise)
+        if (!p_raise)
         {
-            _rageRate = 0f;
-            _happyRate = 0f;
-            _sadRate = 0f;
+            _changeRate = 0f;
             _raisingEmotion = false;
         }
         else
         {
-            if (p_emotion == "Rage")
-            {
-                _rageRate = p_rate;
-                _happyRate = -p_rate;
-                _sadRate = -p_rate;
-            }
-            else if (p_emotion == "Happiness")
-            {
-                _rageRate = -p_rate;
-                _happyRate = p_rate;
-                _sadRate = -p_rate;
-            }
-            else if (p_emotion == "Sadness")
-            {
-                _rageRate = -p_rate;
-                _happyRate = -p_rate;
-                _sadRate = p_rate;
-            }
+            _changeRate = p_rate;
+            _raisingEmotion = true;
+        }
+
+        _raiseToSad = false;
+    }
+
+    public void RaisingToSad(bool p_raise, float p_rate)
+    {
+        if (!p_raise)
+        {
+            _raiseToSad = false;
+            _changeRate = 0f;
+            _raisingEmotion = false;
+        }
+        else
+        {
+            _raiseToSad = true;
+            _changeRate = p_rate;
             _raisingEmotion = true;
         }
     }
-   
-    public float[] GetAllEmotions()
-    {
-        float[] __emotions = new float[3];
-        __emotions[0] = _rage;
-        __emotions[1] = _happiness;
-        __emotions[2] = _sadness;
-        return __emotions;
-    }
 
-    public float GetRage()
+   public float GetMood()
     {
-        return _rage;
-    }
-
-    public float GetHappiness()
-    {
-        return _happiness;
-    }
-
-    public float GetSadness()
-    {
-        return _sadness;
-    }
-
-    public float GetEmotion(string p_emotion)
-    {
-        if (p_emotion == "Rage") return _rage;
-        else if (p_emotion == "Happiness") return _happiness;
-        else if (p_emotion == "Sadness") return _sadness;
-        return 1f;
+        return _mood;
     }
 
     public bool IsRaising()

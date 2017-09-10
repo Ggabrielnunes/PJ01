@@ -22,11 +22,11 @@ public class EnemyManager : MonoBehaviour {
         }
     }
 
-    public void UpdateEnemyEmotions(float[] p_emotions)
+    public void UpdateEnemyEmotions(float p_mood)
     {
         for (int i = 0; i < enemyList.Length; i++)
         {
-            enemyList[i].UpdateEmotion(p_emotions);
+            enemyList[i].UpdateEmotion(p_mood);
         }
     }
 }

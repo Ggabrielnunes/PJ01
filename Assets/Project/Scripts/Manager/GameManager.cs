@@ -21,10 +21,10 @@ public class GameManager : MonoBehaviour {
         keyManager.MInitialize();
         enemyManager.MInitialize();
 
-        _playerEmotions.onChangedEmotions += delegate (float[] p_values)
+        _playerEmotions.onChangedEmotions += delegate (float p_value)
         {
-            guiManager.UpdateEmotionSliders(p_values);
-            enemyManager.UpdateEnemyEmotions(p_values);
+            guiManager.UpdateEmotionSlider(p_value);
+            enemyManager.UpdateEnemyEmotions(p_value);
         };
 
         keyManager.onGotKey += delegate (int p_key)
