@@ -21,7 +21,7 @@ public class EmotionManager : MonoBehaviour {
     private PlayerHealth _playerHealth;
     private PlayerMovement _playerMovement;
 
-    private ColorController[] _allColorControllers;
+    public ColorController[] _allColorControllers;
     private int _timesDataUpdated = 0;
 
     //Dados salvos a cada três segundos. Últimos três estados (contando o estado atual) são salvos.

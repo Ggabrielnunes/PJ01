@@ -3,24 +3,26 @@ using System.Collections;
 
 public class ColorController : MonoBehaviour {
     
-    private SpriteRenderer _thisSprite;
-    private Color _color;
+    protected Color _color;
     
     private bool _changeColor = false;
     // Use this for initialization
-    void Start () {
-        _thisSprite = GetComponent<SpriteRenderer>();
-        _color = _thisSprite.color;
+    protected virtual void Start () {
 	}
 	
 	// Update is called once per frame
-	void Update () {	   
-        if (_changeColor) InterpolateColor();
+	void Update () {
+        if (_changeColor) SetNewColor();
 	}    
 
-    private void InterpolateColor()
+    protected virtual void SetNewColor()
     {
-        var __newColor = _thisSprite.color;
+        
+    }
+    
+    protected Color InterpolateColor(Color p_color)
+    {
+        var __newColor = p_color;
 
         if (_color != __newColor)
         {
@@ -59,7 +61,7 @@ public class ColorController : MonoBehaviour {
         }
         else _changeColor = false;
 
-        _thisSprite.color = __newColor;
+        return __newColor;
     }
 
     public void ChangeColor(float p_r, float p_g, float p_b)
