@@ -4,7 +4,7 @@ using System.Collections;
 
 public class GameGuiManager : MonoBehaviour {
 
-    public Slider[] emotionSliders;
+    public Slider moodSlider;
     public Slider healthSlider;
     public GameObject[] keys;
 
@@ -18,10 +18,7 @@ public class GameGuiManager : MonoBehaviour {
 
     public void UpdateEmotionSlider(float p_newSlider)
     {
-        for (int i = 0; i < emotionSliders.Length; i++)
-        {
-            emotionSliders[i].value = p_newSlider;
-        }
+        moodSlider.value = p_newSlider;
     }
 
     public void ManageKey(int p_key, bool p_active)

@@ -36,6 +36,8 @@ public class EmotionManager : MonoBehaviour {
         UpdateDataNow();
         _data[2] = _data[1] = _data[0];
         InvokeRepeating("UpdateAllData", 3f, 3f);
+
+        FuzzyAnalyser.Init();
 	}
 
     //Atualiza os valores de Rage, Happiness e Sadness para todos os objetos necessários
@@ -63,7 +65,10 @@ public class EmotionManager : MonoBehaviour {
 
         float __newValue = 0f;
         __newValue = DataAnalyzer.CalculateEmotionLevels(_data, __newValue);
-        if(_timesDataUpdated>=3 && !_playerEmotions.IsRaising())
+        //Debug.Log(_data[0].health);
+        //__newValue = FuzzyAnalyser.CalculateEmotionLevels(_data, __newValue);
+        //Debug.Log(__newValue);
+        if (_timesDataUpdated>=3 && !_playerEmotions.IsRaising())
         {
             _playerEmotions.SetMood(false, __newValue);
         }

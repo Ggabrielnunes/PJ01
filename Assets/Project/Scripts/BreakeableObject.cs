@@ -13,7 +13,7 @@ public class BreakeableObject : MonoBehaviour {
             if (_playerEmotions == null) _playerEmotions = p_collider.GetComponent<Emotions>();
             if(_playerEmotions.GetMood()<=requiredRage)
             {
-                _playerEmotions.SetMood(false, requiredRage*0.5f);
+                _playerEmotions.SetMood(false, requiredRage*-0.5f);
                 gameObject.SetActive(false);
             }
         }

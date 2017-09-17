@@ -68,7 +68,19 @@ public class PlayerMovement : MonoBehaviour {
 
     private void Update()
     {        
-        if(_isFloating && _levCounter < _levLength)
+        if(Input.GetKey(KeyCode.D))
+        {
+            MoveRight();
+        }
+        else if (Input.GetKey(KeyCode.A))
+        {
+            MoveLeft();
+        }
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            Jump();
+        }
+        if (_isFloating && _levCounter < _levLength)
         {
             _levCounter += Time.deltaTime;
             if(_levCounter>=_levLength)
@@ -154,9 +166,9 @@ public class PlayerMovement : MonoBehaviour {
 
     public void SetWalkSpeed(float p_mood)
     {
-        if (p_mood >= 0.8f) _moveSpeed = _standardMovingSpeed * 1.5f;
-        else if (p_mood >= 0.6f) _moveSpeed = _standardMovingSpeed * 1.2f;
-        else if (p_mood >= 0.4f || p_mood <= -0.4f) _moveSpeed = _standardMovingSpeed;
+        if (p_mood <= -0.8f) _moveSpeed = _standardMovingSpeed * 1.5f;
+        else if (p_mood <= -0.6f) _moveSpeed = _standardMovingSpeed * 1.2f;
+        else if (p_mood <= -0.4f || p_mood >= 0.4f) _moveSpeed = _standardMovingSpeed;
         else if (p_mood >= 0.2f || p_mood <= -0.2f) _moveSpeed = _standardMovingSpeed * 0.7f;
         else if (p_mood >= -0.1f && p_mood <= 0.1f) _moveSpeed = _standardMovingSpeed * 0.5f;
     }
