@@ -7,7 +7,7 @@ public class ModelColorController : ColorController {
     private Material _material;
     protected override void Start()
     {
-        _material = GetComponent<Material>();
+        _material = GetComponent<SkinnedMeshRenderer>().material;
         _color = _material.color;
     }
 

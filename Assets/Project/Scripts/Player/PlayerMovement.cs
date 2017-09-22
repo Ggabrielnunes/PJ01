@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 
 public enum States
@@ -21,6 +22,10 @@ public enum MoveType
 
 public class PlayerMovement : MonoBehaviour {
 
+    public event Action<bool> onPlayerWalk;
+    public event Action onPlayerJump;
+    public event Action onPlayerFloat;
+
     [Tooltip("LayerMask for collision")]
     [SerializeField] private LayerMask _layerMask;
     [Tooltip("LayerMask for Jump")]
@@ -40,6 +45,12 @@ public class PlayerMovement : MonoBehaviour {
     private bool _walkingRight = false;
     private bool _walkingLeft = false;
 
+    private bool _direction = true;
+    public bool direction
+    {
+        get { return _direction; }
+    }
+
     private bool _toss = false;
     public bool toss
     {
@@ -56,13 +67,13 @@ public class PlayerMovement : MonoBehaviour {
           
     public void GInitialize()
     {
-        _rigidBody = GetComponent<Rigidbody2D>();
+       if(_rigidBody==null) _rigidBody = GetComponent<Rigidbody2D>();
         _moveSpeed = _standardMovingSpeed;
     }
 
     private bool isGrounded()
     {
-        RaycastHit2D __hit = Physics2D.Raycast(transform.position, -Vector2.up, 0.3f, _layerMask);
+        RaycastHit2D __hit = Physics2D.Linecast(transform.position, transform.position - Vector3.up * 0.6f, _layerMask);
         return __hit;
     }
 
@@ -111,8 +122,13 @@ public class PlayerMovement : MonoBehaviour {
         {
             transform.Translate(_moveSpeed * Time.deltaTime, 0, 0);
             if (!_grounded) _playerState = States.JUMPING_RIGHT;
-            else _playerState = States.WALKING_RIGHT;
+            else
+            {
+                _playerState = States.WALKING_RIGHT;
+                if (onPlayerWalk != null) onPlayerWalk(true);
+            }
         }
+        _direction = true;
     }
 
     private void MoveLeft()
@@ -122,23 +138,40 @@ public class PlayerMovement : MonoBehaviour {
         {
             transform.Translate(-_moveSpeed * Time.deltaTime, 0, 0);
             if (!_grounded) _playerState = States.JUMPING_LEFT;
-            else _playerState = States.WALKING_LEFT;
+            else
+            {
+                _playerState = States.WALKING_LEFT;
+                if (onPlayerWalk != null) onPlayerWalk(true);
+            }
+            
         }
+        _direction = false;
     }
 
     public void Jump()
     {      
         if (isGrounded())
         {
+            if (onPlayerJump != null) onPlayerJump();
             _rigidBody.drag = 0.5f;
             _rigidBody.velocity = Vector2.zero;
             _rigidBody.AddForce(new Vector2(0, _jumpingHeight), ForceMode2D.Impulse);
-            if (_playerState == States.WALKING_LEFT) _playerState = States.JUMPING_LEFT;
-            else if (_playerState == States.WALKING_RIGHT) _playerState = States.JUMPING_RIGHT;
+            if (_playerState == States.WALKING_LEFT)
+            {
+                _playerState = States.JUMPING_LEFT;
+                _direction = false;
+            } 
+            else if (_playerState == States.WALKING_RIGHT)
+            {
+                _direction = true;
+                _playerState = States.JUMPING_RIGHT;
+            } 
             else if (_playerState == States.IDLE) _playerState = States.JUMPING_STANDING;
         }
         else if(_levCounter<_levLength && !_isFloating)
         {
+
+            if (onPlayerFloat != null) onPlayerFloat();
             _isFloating = true;
             _rigidBody.drag = _linearDrag;
         }
@@ -147,7 +180,11 @@ public class PlayerMovement : MonoBehaviour {
     public void Stop()
     {
         _walkingLeft = _walkingRight = false;
-        if (_grounded) _playerState = States.IDLE;
+        if (_grounded)
+        {
+            _playerState = States.IDLE;
+            if (onPlayerWalk != null) onPlayerWalk(false);
+        }
         else _playerState = States.JUMPING_STANDING;
     }
 
@@ -175,6 +212,7 @@ public class PlayerMovement : MonoBehaviour {
 
     public Vector2 GetPosition()
     {
+        if(_rigidBody==null) _rigidBody = GetComponent<Rigidbody2D>();
         return _rigidBody.position;
     }
 
