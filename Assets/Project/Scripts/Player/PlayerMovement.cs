@@ -54,7 +54,7 @@ public class PlayerMovement : MonoBehaviour {
     private float _levCounter = 0;
 
           
-    private void Awake()
+    public void GInitialize()
     {
         _rigidBody = GetComponent<Rigidbody2D>();
         _moveSpeed = _standardMovingSpeed;
@@ -66,7 +66,7 @@ public class PlayerMovement : MonoBehaviour {
         return __hit;
     }
 
-    private void Update()
+    public void GUpdate()
     {        
         if(Input.GetKey(KeyCode.D))
         {

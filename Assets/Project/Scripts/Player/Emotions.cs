@@ -14,13 +14,13 @@ public class Emotions : MonoBehaviour {
 
     private PlayerMovement _playerMovement;
 
-    private void Start()
+    public void Ginitialize()
     {
         _mood = 0.5f;
         _playerMovement = GetComponent<PlayerMovement>();
     }
 
-    private void Update()
+    public void GUpdate()
     {
         if (_raisingEmotion)
         {
