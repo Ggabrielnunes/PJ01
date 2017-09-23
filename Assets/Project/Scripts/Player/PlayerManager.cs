@@ -36,6 +36,11 @@ public class PlayerManager : MonoBehaviour {
         {
             playerAnimator.SetInteger("State", 4);
         };
+
+        playerEmotions.onChangedEmotions += delegate (float p_mood)
+        {
+            playerAnimator.SetFloat("Mood", p_mood);
+        };
     }
 
     private void CheckRotation()

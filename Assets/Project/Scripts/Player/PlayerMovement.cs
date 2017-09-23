@@ -71,9 +71,10 @@ public class PlayerMovement : MonoBehaviour {
         _moveSpeed = _standardMovingSpeed;
     }
 
-    private bool isGrounded()
+    private bool IsGrounded()
     {
         RaycastHit2D __hit = Physics2D.Linecast(transform.position, transform.position - Vector3.up * 0.6f, _layerMask);
+        _grounded = __hit;
         return __hit;
     }
 
@@ -109,7 +110,7 @@ public class PlayerMovement : MonoBehaviour {
             if (_walkingLeft) MoveLeft();
             else if (_walkingRight) MoveRight();
         }
-        else if(isGrounded())
+        else if(IsGrounded())
         {
             _toss = false;
         }
@@ -150,7 +151,7 @@ public class PlayerMovement : MonoBehaviour {
 
     public void Jump()
     {      
-        if (isGrounded())
+        if (IsGrounded())
         {
             if (onPlayerJump != null) onPlayerJump();
             _rigidBody.drag = 0.5f;
@@ -180,7 +181,7 @@ public class PlayerMovement : MonoBehaviour {
     public void Stop()
     {
         _walkingLeft = _walkingRight = false;
-        if (_grounded)
+        if (IsGrounded())
         {
             _playerState = States.IDLE;
             if (onPlayerWalk != null) onPlayerWalk(false);
@@ -219,6 +220,17 @@ public class PlayerMovement : MonoBehaviour {
     public States GetState()
     {
         return _playerState;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.layer==10 || collision.gameObject.layer==11 || collision.gameObject.layer == 9)
+        {
+            if(IsGrounded() && _walkingLeft==false && _walkingRight==false)
+            {
+                if (onPlayerWalk != null) onPlayerWalk(false);
+            }
+        }
     }
 }
 
