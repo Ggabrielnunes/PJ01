@@ -4,6 +4,7 @@ using System.Collections;
 public class GameManager : MonoBehaviour {
 
     public GameObject player;
+    public PlayerManager playerManager;
     public GameGuiManager guiManager;
     public EmotionManager emotionManager;
     public KeyManager keyManager;
@@ -20,6 +21,11 @@ public class GameManager : MonoBehaviour {
         guiManager.MInitialize();
         keyManager.MInitialize();
         enemyManager.MInitialize();
+
+        playerManager.onChangeHealth += delegate (float p_health)
+        {
+            guiManager.UpdateHealthSlider(p_health);
+        };
 
         _playerEmotions.onChangedEmotions += delegate (float p_value)
         {

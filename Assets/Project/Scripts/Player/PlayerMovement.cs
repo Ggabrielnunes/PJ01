@@ -26,6 +26,8 @@ public class PlayerMovement : MonoBehaviour {
     public event Action onPlayerJump;
     public event Action onPlayerFloat;
 
+    public int lockMovement;
+
     [Tooltip("LayerMask for collision")]
     [SerializeField] private LayerMask _layerMask;
     [Tooltip("LayerMask for Jump")]
@@ -39,7 +41,7 @@ public class PlayerMovement : MonoBehaviour {
 
     private States _playerState = States.IDLE; 
     private Rigidbody2D _rigidBody;
-    private float _moveSpeed;
+    private float _moveSpeed;    
     private bool _grounded = true;
     private bool _isFloating = false;
     private bool _walkingRight = false;
@@ -79,7 +81,10 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     public void GUpdate()
-    {        
+    {
+        if (lockMovement >= 1)
+            return;
+
         if(Input.GetKey(KeyCode.D))
         {
             MoveRight();
@@ -105,15 +110,9 @@ public class PlayerMovement : MonoBehaviour {
         {
             _levCounter -= Time.deltaTime;
         }
-        if(!_toss)
-        {
-            if (_walkingLeft) MoveLeft();
-            else if (_walkingRight) MoveRight();
-        }
-        else if(IsGrounded())
-        {
-            _toss = false;
-        }
+
+        if (_walkingLeft) MoveLeft();
+        else if (_walkingRight) MoveRight();
     }
 
     private void MoveRight()
@@ -188,7 +187,7 @@ public class PlayerMovement : MonoBehaviour {
         }
         else _playerState = States.JUMPING_STANDING;
     }
-
+    
     public void Move(bool p_right)
     {
         _walkingRight = p_right ? true : false;
@@ -226,9 +225,10 @@ public class PlayerMovement : MonoBehaviour {
     {
         if(collision.gameObject.layer==10 || collision.gameObject.layer==11 || collision.gameObject.layer == 9)
         {
-            if(IsGrounded() && _walkingLeft==false && _walkingRight==false)
+            if(IsGrounded())
             {
-                if (onPlayerWalk != null) onPlayerWalk(false);
+                if (lockMovement == 1) lockMovement = 0;
+                if (_walkingLeft == false && _walkingRight == false && onPlayerWalk != null) onPlayerWalk(false);
             }
         }
     }

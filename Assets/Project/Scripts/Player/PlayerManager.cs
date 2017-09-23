@@ -1,30 +1,29 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerManager : MonoBehaviour {
 
+    public event Action<float> onChangeHealth;
+    
+    public float blinkRate;
+
     public Animator playerAnimator;
     public Transform playerTransform;
+    public GameObject playerBody;
     public PlayerHealth playerHealth;
     public PlayerMovement playerMovement;
     public Emotions playerEmotions;
-    
+        
     public void Start()
     {
         playerMovement.GInitialize();
         playerEmotions.Ginitialize();
-    }
-
-    public void Update()
-    {
-        playerMovement.GUpdate();
-        playerEmotions.GUpdate();
-        CheckRotation();
 
         playerMovement.onPlayerWalk += delegate (bool p_walking)
         {
-            playerAnimator.SetInteger("State", p_walking?1:0);
+            playerAnimator.SetInteger("State", p_walking ? 1 : 0);
         };
 
         playerMovement.onPlayerJump += delegate ()
@@ -41,6 +40,42 @@ public class PlayerManager : MonoBehaviour {
         {
             playerAnimator.SetFloat("Mood", p_mood);
         };
+
+        playerHealth.onDeath += delegate ()
+        {
+            playerAnimator.SetTrigger("Death");
+        };
+
+        playerHealth.onPushed += delegate ()
+        {
+            playerMovement.lockMovement = 1;
+            playerAnimator.SetInteger("State", 4);
+        };
+        
+        playerHealth.onInvincible += delegate (bool p_inv)
+        {
+            if (p_inv)
+            {
+                InvokeRepeating("Blink", blinkRate, blinkRate);
+            }
+            else
+            {
+                CancelInvoke("Blink");
+                playerBody.SetActive(true);
+            }
+        };
+
+        playerHealth.onDamage += delegate (float p_health)
+        {
+            if (onChangeHealth != null) onChangeHealth(p_health);
+        };
+    }
+
+    public void Update()
+    {
+        playerMovement.GUpdate();
+        playerEmotions.GUpdate();
+        CheckRotation();
     }
 
     private void CheckRotation()
@@ -59,5 +94,10 @@ public class PlayerManager : MonoBehaviour {
                 playerTransform.eulerAngles = new Vector3(0f, 270f, 0f);
             }
         }
+    }
+
+    private void Blink()
+    {
+        playerBody.SetActive(playerBody.activeInHierarchy ? false : true);
     }
 }

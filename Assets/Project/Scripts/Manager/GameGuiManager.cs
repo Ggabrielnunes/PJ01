@@ -5,7 +5,7 @@ using System.Collections;
 public class GameGuiManager : MonoBehaviour {
 
     public Slider moodSlider;
-    public Slider healthSlider;
+    public Image healthSlider;
     public GameObject[] keys;
 
     public void MInitialize()
@@ -14,6 +14,11 @@ public class GameGuiManager : MonoBehaviour {
         {
             keys[i].SetActive(false);
         }
+    }
+
+    public void UpdateHealthSlider(float p_health)
+    {
+        healthSlider.fillAmount = p_health / 100;
     }
 
     public void UpdateEmotionSlider(float p_newSlider)

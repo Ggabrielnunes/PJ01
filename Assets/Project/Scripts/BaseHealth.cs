@@ -9,10 +9,16 @@ public class BaseHealth : MonoBehaviour {
         if (gameObject.activeInHierarchy) gameObject.SetActive(false);
     }
 
+    public event System.Action<float> onDamage;
+    public event System.Action<bool> onInvincible;
+    public event System.Action onDeath;
+
     [SerializeField] protected float _health;
+    [SerializeField] protected float _invincibleTimeAfterDamage;
     [Tooltip("Deactivate unit X seconds after death. If set to 0, unit will not deactivate upon death")]
     [SerializeField] protected float _onDeathDeactivateTime;
     [SerializeField] protected Rigidbody2D _rigidBody;
+    private bool _invincible = false;
     
     protected virtual void OnDeath()
     {
@@ -21,12 +27,39 @@ public class BaseHealth : MonoBehaviour {
 
     public virtual void DamageUnit(float p_damage)
     {
-        if (_health > 0) _health -= p_damage;
-        if (_health <= 0) OnDeath();
+        if(!_invincible)
+        {
+            if (_health > 0)
+            {
+                _health -= p_damage;
+                if (onDamage != null) onDamage(_health);
+                if (_health <= 0)
+                {
+                    OnDeath();
+                    if (onDeath != null) onDeath();
+                }
+                else SetInvincible(true);
+            }
+        }
+    }
+
+    public virtual void SetInvincible(bool p_inv)
+    {
+        _invincible = p_inv;
+        if (onInvincible != null) onInvincible(_invincible);
+        if(_invincible)
+        {
+            Invoke("BackToNormal",_invincibleTimeAfterDamage);
+        }
     }
 
     public float GetHealth()
     {
         return _health;
+    }
+
+    private void BackToNormal()
+    {
+        SetInvincible(false);
     }
 }
