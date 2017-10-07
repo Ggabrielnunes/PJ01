@@ -33,7 +33,7 @@ public class Emotions : MonoBehaviour {
             {
                 _mood += _changeRate * Time.deltaTime;
                 if (_mood > 1f) _mood = 1f;
-                else if (_mood < -1f) _mood = 1f;
+                else if (_mood < -1f) _mood = -1f;
             }
             if (onChangedEmotions != null) onChangedEmotions(_mood);
         }

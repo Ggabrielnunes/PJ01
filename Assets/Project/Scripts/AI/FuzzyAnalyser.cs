@@ -24,16 +24,16 @@ using FuzzyLogicController.FLC;
             //Variavel de entrada
             //vida
             health = new LingVariable("Health", VarType.Input); //declare new lingustic variable
-            health.setRange(0, 35); // set max - min range for our variables 0 mph -35 mph
+            health.setRange(0, 100); // set max - min range for our variables 0 mph -35 mph
             health.addMF(new Trimf("Low", 0, 0, 55)); // trapmf: trapazoid shape behaviour
             health.addMF(new Trimf("Medium", 0, 50, 100)); // trimf: triangle shape behaviour
             health.addMF(new Trimf("High", 45, 100, 100));
         
             mood = new LingVariable("Mood", VarType.Output);
-            mood.setRange(0, 65);  // Brake Force
-            mood.addMF(new Trimf("Angry", -1, -1, 1));
-            mood.addMF(new Trimf("Sad", -1, 0, 1));
-            mood.addMF(new Trimf("Happy", 0.45, 1, 1.45));
+            mood.setRange(0, 2);  // Brake Force
+            mood.addMF(new Trimf("Angry", 0, 1.5f, 1.5f));
+            mood.addMF(new Trimf("Sad", 0.5, 0, 1.5));
+            mood.addMF(new Trimf("Happy", 0.5, 2, 2));
 
             //IF Health IS High THEN Mood is Happy
             List<RuleItem> rule1in = new List<RuleItem>();
@@ -42,9 +42,14 @@ using FuzzyLogicController.FLC;
             // the if part of the Rule, add more than one if X1 and X2, 
             // add another RuleItem in the list
             rule1in.AddRange(new RuleItem[1] { new RuleItem("Health", "High") });
-
-            // the then part in the Rule
             rule1out.AddRange(new RuleItem[1] { new RuleItem("Mood", "Happy") });
+
+            rule1in.AddRange(new RuleItem[1] { new RuleItem("Health", "Low") });
+            rule1out.AddRange(new RuleItem[1] { new RuleItem("Mood", "Angry") });
+
+            rule1in.AddRange(new RuleItem[1] { new RuleItem("Health", "Medium") });
+            rule1out.AddRange(new RuleItem[1] { new RuleItem("Mood", "Sad") });
+
 
             // List of rules "RuleBase" passed to the Inference Engine
             rules = new List<Rule>();
