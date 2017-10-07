@@ -22,6 +22,7 @@ public class BaseHealth : MonoBehaviour {
     
     protected virtual void OnDeath()
     {
+        if (onDeath != null) onDeath();
         if (_onDeathDeactivateTime > 0) StartCoroutine(DeactivateOnDeath(_onDeathDeactivateTime));
     }
 
@@ -32,11 +33,10 @@ public class BaseHealth : MonoBehaviour {
             if (_health > 0)
             {
                 _health -= p_damage;
-                if (onDamage != null) onDamage(_health);
+                OnDamage();
                 if (_health <= 0)
                 {
                     OnDeath();
-                    if (onDeath != null) onDeath();
                 }
                 else SetInvincible(true);
             }
@@ -56,6 +56,11 @@ public class BaseHealth : MonoBehaviour {
     public float GetHealth()
     {
         return _health;
+    }
+
+    protected void OnDamage()
+    {
+        if (onDamage != null) onDamage(_health);
     }
 
     private void BackToNormal()
