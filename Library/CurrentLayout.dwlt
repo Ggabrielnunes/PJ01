@@ -20,7 +20,7 @@ MonoBehaviour:
   m_ShowMode: 4
   m_Title: 
   m_RootView: {fileID: 2}
-  m_MinSize: {x: 950, y: 300}
+  m_MinSize: {x: 950, y: 542}
   m_MaxSize: {x: 10000, y: 10000}
 --- !u!114 &2
 MonoBehaviour:
@@ -106,7 +106,7 @@ MonoBehaviour:
     y: 30
     width: 1366
     height: 636
-  m_MinSize: {x: 709, y: 471}
+  m_MinSize: {x: 709, y: 492}
   m_MaxSize: {x: 18004, y: 14042}
   vertical: 0
   controlID: 11
@@ -130,7 +130,7 @@ MonoBehaviour:
     y: 0
     width: 1089
     height: 636
-  m_MinSize: {x: 434, y: 471}
+  m_MinSize: {x: 434, y: 492}
   m_MaxSize: {x: 14004, y: 14042}
   vertical: 1
   controlID: 12
@@ -154,8 +154,8 @@ MonoBehaviour:
     y: 0
     width: 1089
     height: 339
-  m_MinSize: {x: 302, y: 200}
-  m_MaxSize: {x: 8002, y: 4021}
+  m_MinSize: {x: 306, y: 221}
+  m_MaxSize: {x: 8006, y: 4021}
   vertical: 0
   controlID: 13
 --- !u!114 &8
@@ -414,14 +414,14 @@ MonoBehaviour:
     width: 739
     height: 318
   m_SceneLighting: 1
-  lastFramingTime: 506.73065298705393
+  lastFramingTime: 1017.7977420634875
   m_2DMode: 1
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 0.48654437, y: -0.45175648, z: 0}
+    m_Target: {x: -9.1, y: 0, z: 4}
     speed: 2
-    m_Value: {x: 0.48654437, y: -0.45175648, z: 0}
+    m_Value: {x: -9.1, y: 0, z: 4}
   m_RenderMode: 0
   m_ValidateTrueMetals: 0
   m_SceneViewState:
@@ -448,14 +448,14 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 13.090801
+    m_Target: 30.475494
     speed: 2
-    m_Value: 13.090801
+    m_Value: 30.475494
   m_Ortho:
     m_Target: 1
     speed: 2
     m_Value: 1
-  m_LastSceneViewRotation: {x: 0.08717229, y: -0.89959055, z: 0.21045254, w: 0.3726226}
+  m_LastSceneViewRotation: {x: -0.08717229, y: 0.89959055, z: -0.21045254, w: -0.3726226}
   m_LastSceneViewOrtho: 0
   m_ReplacementShader: {fileID: 0}
   m_ReplacementString: 
@@ -573,10 +573,10 @@ MonoBehaviour:
     width: 254
     height: 276
   m_TreeViewState:
-    scrollPos: {x: 0, y: 77}
-    m_SelectedIDs: 0c290000
-    m_LastClickedID: 10508
-    m_ExpandedIDs: c6c7ffff2ed4ffff42f7ffff78f7ffffd8fbffff000000005c290000
+    scrollPos: {x: 0, y: 0}
+    m_SelectedIDs: 1a2a0000
+    m_LastClickedID: 10778
+    m_ExpandedIDs: d8fbffff00000000462a0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -626,7 +626,7 @@ MonoBehaviour:
     width: 829
     height: 276
   m_SearchFilter:
-    m_NameFilter: 
+    m_NameFilter: damage
     m_ClassNames: []
     m_AssetLabels: []
     m_AssetBundleNames: []
@@ -636,19 +636,19 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets/Project/Prefabs
+    - Assets/Project/Scripts/Enemy
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Project/Prefabs
+  - Assets/Project/Scripts/Enemy
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\Asus\Desktop\Gabriel\Projetos\PJ01
   m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 127}
-    m_SelectedIDs: 94250000
-    m_LastClickedID: 9620
-    m_ExpandedIDs: 00000000302500005a2500007c250000ac250000be250000ee250000842600008a2600008c2f00008e2f0000902f0000922f0000942f0000962f0000de340000f43400000a35000000ca9a3bffffff7f
+    scrollPos: {x: 0, y: 177}
+    m_SelectedIDs: 
+    m_LastClickedID: 0
+    m_ExpandedIDs: 00000000322500007025000092250000f6250000c6260000f0260000b4300000b6300000b8300000ba300000bc300000be300000c0300000c230000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -676,7 +676,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000302500005a250000ac250000be250000842600008a2600008c2f00008e2f0000902f0000922f0000942f0000962f0000
+    m_ExpandedIDs: 00000000322500007025000092250000c2250000f62500002c260000c6260000d6260000f0260000b4300000b6300000b8300000ba300000bc300000be300000c0300000c2300000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -703,7 +703,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 1
+    m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: 3022000020220000e8290000d41d00002c2200008c1c00004405000002220000042200000e2200001622000000000000a4270000da2700000c2700007c25000062260000
     m_RenameOverlay:
       m_UserAcceptedRename: 0

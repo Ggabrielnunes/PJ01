@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour {
 
     public event Action<float> onChangeHealth;
+    public event Action onDeath;
     
     public float blinkRate;
 
@@ -44,6 +45,10 @@ public class PlayerManager : MonoBehaviour {
         playerHealth.onDeath += delegate ()
         {
             playerAnimator.SetTrigger("Death");
+            if (onDeath != null) onDeath();
+            playerEmotions.enabled = false;
+            playerHealth.enabled = false;
+            playerMovement.enabled = false;
         };
 
         playerHealth.onPushed += delegate ()

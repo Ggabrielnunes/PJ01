@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class GameManager : MonoBehaviour {
@@ -27,6 +28,11 @@ public class GameManager : MonoBehaviour {
             guiManager.UpdateHealthSlider(p_health);
         };
 
+        playerManager.onDeath += delegate()
+        {
+            guiManager.ActivateGOScreen();
+        };
+
         _playerEmotions.onChangedEmotions += delegate (float p_value)
         {
             guiManager.UpdateEmotionSlider(p_value);
@@ -41,6 +47,19 @@ public class GameManager : MonoBehaviour {
         keyManager.onUsedKey += delegate (int p_key)
         {
             guiManager.ManageKey(p_key, false);
+        };
+
+        guiManager.onFadeOutEnd += delegate (int p_effect)
+        {
+            if (p_effect == 1)
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            }
+            else if (p_effect == 2)
+            {
+                SceneManager.LoadScene("MainMenu");
+            }
+            else if(p_effect == 3) Application.Quit();
         };
     }
 }
