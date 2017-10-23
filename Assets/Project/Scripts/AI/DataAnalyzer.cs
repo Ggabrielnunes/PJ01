@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class DataAnalyzer : MonoBehaviour {
+
+    private static Dictionary<string, object> _dictionary;
 
     private static float AnalyzeHealth(Data[] p_data, float p_value)
     {
@@ -9,10 +12,12 @@ public class DataAnalyzer : MonoBehaviour {
         {
             if (p_data[1].health < p_data[2].health)
             {
+                _dictionary.Add("Health", "Lostx2");
                 p_value -= 0.1f;
             }
             else
             {
+                _dictionary.Add("Health", "Lostx1");
                 p_value -= 0.2f;
             }
         }
@@ -20,10 +25,12 @@ public class DataAnalyzer : MonoBehaviour {
         {
             if (p_data[1].health < p_data[2].health)
             {
+                _dictionary.Add("Health", "Recoveredx1");
                 p_value += 0.2f;
             }
             else if (p_data[1].health > p_data[2].health)
             {
+                _dictionary.Add("Health", "Recoveredx2");
                 p_value += 0.1f;
             }
         }
@@ -111,7 +118,8 @@ public class DataAnalyzer : MonoBehaviour {
     {
         var __state = AnalyzeState(p_data);
         var __moveType = AnalyzeMovement(p_data);
-      
+        _dictionary.Add("State", p_data[0].playerState.ToString());
+        _dictionary.Add("MoveType", ((MoveType)__moveType).ToString());
         //Jogador no chão
         if (__state < 100)
         {
@@ -439,8 +447,12 @@ public class DataAnalyzer : MonoBehaviour {
     //Modifica os valores de emoções recebidos
     public static float CalculateEmotionLevels(Data[] p_data, float p_value)
     {
+        _dictionary = new Dictionary<string, object>();
+        _dictionary.Add("PrevMood", p_value);
         p_value = AnalyzeHealth(p_data, p_value);
-        p_value = CalculateMovements(p_data, p_value);     
+        p_value = CalculateMovements(p_data, p_value);
+        _dictionary.Add("CurrentMood", p_value);
+        AnalyticsManager.Instance.SendCustomEvent("EmotionManagerSetEmotion", _dictionary);
         return p_value;
     }
 }

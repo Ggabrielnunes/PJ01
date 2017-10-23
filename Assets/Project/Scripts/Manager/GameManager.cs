@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Collections;
+using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour {
 
@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour {
 
     private Emotions _playerEmotions;
     private PlayerHealth _playerHealth;
+    private Dictionary<string, object> _analyticsDictionary;
 
     // Use this for initialization
     void Start () {
@@ -30,6 +31,10 @@ public class GameManager : MonoBehaviour {
 
         playerManager.onDeath += delegate()
         {
+            Dictionary<string, object> __newDic = new Dictionary<string, object>();
+            __newDic.Add("Position", player.transform.position);
+            __newDic.Add("Mood", _playerEmotions.GetMood());
+            AnalyticsManager.Instance.SendCustomEvent("Death", __newDic);
             guiManager.ActivateGOScreen();
         };
 
