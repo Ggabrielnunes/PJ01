@@ -5,6 +5,10 @@ public class BreakeableObject : MonoBehaviour {
 
     public Emotions _playerEmotions;
     public float requiredRage;
+    public GameObject wall;
+    public GameObject fragments;
+    public ManualMeshColorController mainColor;
+    public ManualMeshColorController[] meshControllers;
 
 	public void OnTriggerEnter2D(Collider2D p_collider)
     {
@@ -13,9 +17,20 @@ public class BreakeableObject : MonoBehaviour {
             if (_playerEmotions == null) _playerEmotions = p_collider.GetComponent<Emotions>();
             if(_playerEmotions.GetMood()<=requiredRage)
             {
-                _playerEmotions.SetMood(false, requiredRage*-0.5f);
-                gameObject.SetActive(false);
+                _playerEmotions.SetMood(false, requiredRage*-0.8f);
+                var __color = mainColor.GetColor();
+                ApplyColors(__color);
+                wall.SetActive(false);
+                fragments.SetActive(true);
             }
+        }
+    }
+
+    private void ApplyColors(Color p_color)
+    {
+        for(int i = 0; i < meshControllers.Length; i++)
+        {
+            meshControllers[i].SetColorInstant(p_color);
         }
     }
 }

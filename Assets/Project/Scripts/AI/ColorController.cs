@@ -6,67 +6,10 @@ public class ColorController : MonoBehaviour {
     protected Color _color;
     
     private bool _changeColor = false;
-    // Use this for initialization
-    protected virtual void Start () {
-	}
-	
-	// Update is called once per frame
-	void Update () {
-        if (_changeColor) SetNewColor();
-	}    
-
-    protected virtual void SetNewColor()
-    {
-        
-    }
-    
-    protected Color InterpolateColor(Color p_color)
-    {
-        var __newColor = p_color;
-
-        if (_color != __newColor)
-        {
-            if (__newColor.r > _color.r)
-            {
-                __newColor.r -= 0.01f;
-                if (__newColor.r < _color.r) __newColor.r = _color.r;
-            }
-            else if (__newColor.r < _color.r)
-            {
-                __newColor.r += 0.01f;
-                if (__newColor.r > _color.r) __newColor.r = _color.r;
-            }
-
-            if (__newColor.g > _color.g)
-            {
-                __newColor.g -= 0.01f;
-                if (__newColor.g < _color.g) __newColor.g = _color.g;
-            }
-            else if (__newColor.g < _color.g)
-            {
-                __newColor.g += 0.01f;
-                if (__newColor.g > _color.g) __newColor.g = _color.g;
-            }
-
-            if (__newColor.b > _color.b)
-            {
-                __newColor.b -= 0.01f;
-                if (__newColor.b < _color.b) __newColor.b = _color.b;
-            }
-            else if (__newColor.b < _color.b)
-            {
-                __newColor.b += 0.01f;
-                if (__newColor.b > _color.b) __newColor.b = _color.b;
-            }
-        }
-        else _changeColor = false;
-
-        return __newColor;
-    }
 
     public void ChangeColor(float p_mood)
     {
-        switch(PlayerState(p_mood))
+        switch (PlayerState(p_mood))
         {
             case 0:
                 _color.r = 1f;
@@ -115,6 +58,72 @@ public class ColorController : MonoBehaviour {
                 break;
         }
         _changeColor = true;
+    }
+
+    public virtual void SetColorInstant(Color p_color)
+    {
+
+    }
+
+    protected virtual void Start () {
+	}
+	
+	protected void Update () {
+        if (_changeColor) SetNewColor();
+	}    
+
+    protected virtual void SetNewColor()
+    {
+        
+    }
+    
+    public Color GetColor()
+    {
+        return _color;
+    }
+    
+    protected Color InterpolateColor(Color p_color)
+    {
+        var __newColor = p_color;
+
+        if (_color != __newColor)
+        {
+            if (__newColor.r > _color.r)
+            {
+                __newColor.r -= 0.01f;
+                if (__newColor.r < _color.r) __newColor.r = _color.r;
+            }
+            else if (__newColor.r < _color.r)
+            {
+                __newColor.r += 0.01f;
+                if (__newColor.r > _color.r) __newColor.r = _color.r;
+            }
+
+            if (__newColor.g > _color.g)
+            {
+                __newColor.g -= 0.01f;
+                if (__newColor.g < _color.g) __newColor.g = _color.g;
+            }
+            else if (__newColor.g < _color.g)
+            {
+                __newColor.g += 0.01f;
+                if (__newColor.g > _color.g) __newColor.g = _color.g;
+            }
+
+            if (__newColor.b > _color.b)
+            {
+                __newColor.b -= 0.01f;
+                if (__newColor.b < _color.b) __newColor.b = _color.b;
+            }
+            else if (__newColor.b < _color.b)
+            {
+                __newColor.b += 0.01f;
+                if (__newColor.b > _color.b) __newColor.b = _color.b;
+            }
+        }
+        else _changeColor = false;
+
+        return __newColor;
     }
 
     private int PlayerState(float p_mood)
