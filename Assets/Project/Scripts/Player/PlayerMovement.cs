@@ -61,8 +61,8 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     private float _linearDrag = 7f;    
-    private float _minJumpingHeight=1.8f;
-    private float _maxJumpingHeight=3f;
+    private float _minJumpingHeight=2f;
+    private float _maxJumpingHeight=4.2f;
     private float _speedMult;
     private float _levCounter = 0;
 

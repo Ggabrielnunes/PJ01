@@ -16,7 +16,7 @@ public class Emotions : MonoBehaviour {
 
     public void Ginitialize()
     {
-        _mood = 0.5f;
+        _mood = 0f;
         _playerMovement = GetComponent<PlayerMovement>();
     }
 

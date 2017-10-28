@@ -11,18 +11,29 @@ public class GameManager : MonoBehaviour {
     public KeyManager keyManager;
     public EnemyManager enemyManager;
 
+    private Door _door;
     private Emotions _playerEmotions;
     private PlayerHealth _playerHealth;
     private Dictionary<string, object> _analyticsDictionary;
 
     // Use this for initialization
     void Start () {
+        _door = FindObjectOfType<Door>();
+
         _playerEmotions = player.GetComponent<Emotions>();
         _playerHealth = player.GetComponent<PlayerHealth>();
 
         guiManager.MInitialize();
         keyManager.MInitialize();
         enemyManager.MInitialize();
+
+        if(_door!=null)
+        {
+            _door.onEndStage += delegate ()
+            {
+                guiManager.EndgameFade();                
+            };
+        }
 
         playerManager.onChangeHealth += delegate (float p_health)
         {
@@ -65,6 +76,10 @@ public class GameManager : MonoBehaviour {
                 SceneManager.LoadScene("MainMenu");
             }
             else if(p_effect == 3) Application.Quit();
+            else if(p_effect == 4)
+            {
+                SceneManager.LoadScene("MainMenu");
+            }
         };
     }
 }

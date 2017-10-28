@@ -11,6 +11,7 @@ public class GameGuiManager : MonoBehaviour {
     public Image healthSlider;
     public GameObject[] keys;
     public GameObject gameOverScreen;
+    public Button[] buttons;
 
     private float _fadeSpeed = 2f;
     private int _actionOnFadeOut;
@@ -48,6 +49,18 @@ public class GameGuiManager : MonoBehaviour {
     public void ManageKey(int p_key, bool p_active)
     {
         keys[p_key].SetActive(p_active);
+    }
+
+    public void EndgameFade()
+    {
+        _actionOnFadeOut = 4;
+        fadeOutScreen.CrossFadeAlpha(1f, _fadeSpeed, false);
+        Invoke("OnFadeAction", _fadeSpeed + 0.5f);
+
+        for(int i = 0; i < buttons.Length; i++)
+        {
+            buttons[i].interactable = false;
+        }
     }
 
     private void Fade(bool p_in)
