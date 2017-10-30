@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour {
 
+    public int stage;
     public GameObject player;
     public PlayerManager playerManager;
     public GameGuiManager guiManager;
@@ -31,6 +32,12 @@ public class GameManager : MonoBehaviour {
         {
             _door.onEndStage += delegate ()
             {
+                var __stages = PlayerPrefs.GetInt("UnlockedStages");
+                if (__stages <= stage)
+                {
+                    __stages++;
+                    PlayerPrefs.SetInt("UnlockedStages",__stages);
+                }
                 guiManager.EndgameFade();                
             };
         }
@@ -38,6 +45,11 @@ public class GameManager : MonoBehaviour {
         playerManager.onChangeHealth += delegate (float p_health)
         {
             guiManager.UpdateHealthSlider(p_health);
+        };
+
+        playerManager.onUnlockActions += delegate ()
+        {
+            playerManager.UnlockActions();
         };
 
         playerManager.onDeath += delegate()

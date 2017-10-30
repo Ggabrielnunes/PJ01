@@ -10,6 +10,8 @@ public class EmotionItem : MonoBehaviour {
         SAD
     }
 
+    public ParticleSystem particles;
+
     [SerializeField] private Emotion _emotion;
     [SerializeField] private float _amount;
     [SerializeField] private float _rate;
@@ -54,6 +56,7 @@ public class EmotionItem : MonoBehaviour {
             {
                 _playerEmotions.IsRaisingEmotion(false, 0f);
                 _isRaising = false;
+                particles.Stop(true);
             }
         }
     }

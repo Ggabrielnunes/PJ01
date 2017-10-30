@@ -210,6 +210,11 @@ public class PlayerMovement : MonoBehaviour {
         else if (p_mood >= -0.1f && p_mood <= 0.1f) _moveSpeed = _standardMovingSpeed * 0.5f;
     }
 
+    public void UnlockMovement()
+    {
+        lockMovement = 0;
+    }
+
     public Vector2 GetPosition()
     {
         if(_rigidBody==null) _rigidBody = GetComponent<Rigidbody2D>();

@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour {
 
     public event Action<float> onChangeHealth;
+    public event Action onUnlockActions;
     public event Action onDeath;
     
     public float blinkRate;
@@ -65,6 +66,7 @@ public class PlayerManager : MonoBehaviour {
             }
             else
             {
+                if (onUnlockActions != null) onUnlockActions();
                 CancelInvoke("Blink");
                 playerBody.SetActive(true);
             }
@@ -81,6 +83,11 @@ public class PlayerManager : MonoBehaviour {
         playerMovement.GUpdate();
         playerEmotions.GUpdate();
         CheckRotation();
+    }
+
+    public void UnlockActions()
+    {
+        playerMovement.UnlockMovement();
     }
 
     private void CheckRotation()

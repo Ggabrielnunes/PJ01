@@ -9,9 +9,13 @@ public class GameGuiManager : MonoBehaviour {
     public Slider moodSlider;
     public Image fadeOutScreen;
     public Image healthSlider;
+    public Image sliderHandler;
     public GameObject[] keys;
     public GameObject gameOverScreen;
     public Button[] buttons;
+    public Sprite happyMask;
+    public Sprite sadMask;
+    public Sprite madMask;
 
     private float _fadeSpeed = 2f;
     private int _actionOnFadeOut;
@@ -44,6 +48,18 @@ public class GameGuiManager : MonoBehaviour {
     public void UpdateEmotionSlider(float p_newSlider)
     {
         moodSlider.value = p_newSlider;
+        if(p_newSlider<=-0.3f)
+        {
+            sliderHandler.sprite = madMask;
+        }
+        else if(p_newSlider>=0.3f)
+        {
+            sliderHandler.sprite = happyMask;
+        }
+        else
+        {
+            sliderHandler.sprite = sadMask;
+        }
     }
 
     public void ManageKey(int p_key, bool p_active)

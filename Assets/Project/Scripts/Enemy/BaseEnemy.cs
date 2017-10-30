@@ -19,13 +19,27 @@ public class BaseEnemy : MonoBehaviour {
 
     public void UpdateEmotion(float p_playerMood)
     {
-        if(p_playerMood>activeThreshold)
+        if(p_playerMood>0)
         {
-            ActivateEnemy(true);
+            if (p_playerMood > activeThreshold)
+            {
+                ActivateEnemy(true);
+            }
+            else if (p_playerMood < inactiveThreshold)
+            {
+                ActivateEnemy(false);
+            }
         }
-        else if (p_playerMood<inactiveThreshold)
+        else
         {
-            ActivateEnemy(false);
+            if (p_playerMood < activeThreshold)
+            {
+                ActivateEnemy(true);
+            }
+            else if (p_playerMood > inactiveThreshold)
+            {
+                ActivateEnemy(false);
+            }
         }
     }
 
