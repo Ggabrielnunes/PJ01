@@ -23,6 +23,32 @@ public class Tristitia : BaseEnemy {
         };
     }
 
+    public override void UpdateEmotion(float p_playerMood)
+    {
+        if (p_playerMood > 0)
+        {
+            if (p_playerMood > activeThreshold)
+            {
+                ActivateEnemy(true);
+            }
+            else if (p_playerMood < inactiveThreshold)
+            {
+                ActivateEnemy(false);
+            }
+        }
+        else
+        {
+            if (p_playerMood < -activeThreshold)
+            {
+                ActivateEnemy(true);
+            }
+            else if (p_playerMood > -inactiveThreshold)
+            {
+                ActivateEnemy(false);
+            }
+        }
+    }
+
     protected override void ActivateEnemy(bool p_activate)
     {
         attackCollider.ActivateCollider(p_activate);

@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: b968863a854d10241a19e78c60d1c41c
+timeCreated: 1510348745
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Hitam
+  fontNames:
+  - Hitam
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

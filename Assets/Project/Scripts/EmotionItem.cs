@@ -24,9 +24,13 @@ public class EmotionItem : MonoBehaviour {
         if(p_collider.tag=="Player" && _amount>0)
         {
             if (_playerEmotions == null) _playerEmotions = p_collider.GetComponent<Emotions>();
-            if(_emotion!=Emotion.SAD)
+            if(_emotion==Emotion.HAPPY)
             {
                 _playerEmotions.IsRaisingEmotion(true, _rate);
+            }
+            else if (_emotion==Emotion.RAGE)
+            {
+                _playerEmotions.IsRaisingEmotion(true, -_rate);
             }
             else
             {

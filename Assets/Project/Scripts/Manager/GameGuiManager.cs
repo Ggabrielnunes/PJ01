@@ -11,6 +11,8 @@ public class GameGuiManager : MonoBehaviour {
     public Image healthSlider;
     public Image sliderHandler;
     public GameObject[] keys;
+    public GameObject pauseButton;
+    public GameObject pauseScreen;
     public GameObject gameOverScreen;
     public Button[] buttons;
     public Sprite happyMask;
@@ -38,6 +40,22 @@ public class GameGuiManager : MonoBehaviour {
     {
         _actionOnFadeOut = p_button;
         Fade(true);
+    }
+
+    public void Pause(bool p_pause)
+    {
+        if(p_pause)
+        {
+            pauseButton.SetActive(false);
+            Time.timeScale = 0f;
+            pauseScreen.SetActive(true);
+        }
+        else
+        {
+            pauseButton.SetActive(true);
+            Time.timeScale = 1f;
+            pauseScreen.SetActive(false);
+        }
     }
 
     public void UpdateHealthSlider(float p_health)
@@ -68,12 +86,28 @@ public class GameGuiManager : MonoBehaviour {
     }
 
     public void EndgameFade()
-    {
+    {        
+        Time.timeScale = 1f;
         _actionOnFadeOut = 4;
+        fadeOutScreen.raycastTarget = true;
         fadeOutScreen.CrossFadeAlpha(1f, _fadeSpeed, false);
         Invoke("OnFadeAction", _fadeSpeed + 0.5f);
 
         for(int i = 0; i < buttons.Length; i++)
+        {
+            buttons[i].interactable = false;
+        }
+    }
+
+    public void QuitApp()
+    {
+        Time.timeScale = 1f;
+        _actionOnFadeOut = 3;
+        fadeOutScreen.raycastTarget = true;
+        fadeOutScreen.CrossFadeAlpha(1f, _fadeSpeed, false);
+        Invoke("OnFadeAction", _fadeSpeed + 0.5f);
+
+        for (int i = 0; i < buttons.Length; i++)
         {
             buttons[i].interactable = false;
         }

@@ -17,7 +17,7 @@ public class BaseEnemy : MonoBehaviour {
 
     }
 
-    public void UpdateEmotion(float p_playerMood)
+    public virtual void UpdateEmotion(float p_playerMood)
     {
         if(p_playerMood>0)
         {
