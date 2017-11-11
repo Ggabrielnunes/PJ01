@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour {
 
         _playerEmotions = player.GetComponent<Emotions>();
         _playerHealth = player.GetComponent<PlayerHealth>();
-
+        SFXManager.Instance.KInitialize();
         guiManager.MInitialize();
         keyManager.MInitialize();
         enemyManager.MInitialize();
@@ -90,7 +90,15 @@ public class GameManager : MonoBehaviour {
             else if(p_effect == 3) Application.Quit();
             else if(p_effect == 4)
             {
-                SceneManager.LoadScene("MainMenu");
+                var __scene = SceneManager.GetSceneByName("Stage" + stage + 1);
+                if (__scene!=null)
+                {
+                    SceneManager.LoadScene(__scene.name);
+                }
+                else
+                {
+                    SceneManager.LoadScene("MainMenu");
+                }
             }
         };
     }

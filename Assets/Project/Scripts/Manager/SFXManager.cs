@@ -17,7 +17,7 @@ public class SFXManager : MonoBehaviour {
         if(_source==null)
         {
             _source = gameObject.AddComponent<AudioSource>();
-            DontDestroyOnLoad(this);
+            _source.volume = 0.5f;
         }
     }
 

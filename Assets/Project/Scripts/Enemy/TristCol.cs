@@ -5,13 +5,14 @@ using UnityEngine;
 
 public class TristCol : MonoBehaviour {
     public event Action<PlayerHealth> onPlayerEnter;
-
+    public AudioClip audioClip;
     public Collider2D thisCollider;
 
     public void OnTriggerEnter2D(Collider2D p_collider)
     {
        if(p_collider.tag=="Player")
         {
+            SFXManager.Instance.PlaySFX(audioClip);
             var __health = p_collider.GetComponent<PlayerHealth>();
             if (onPlayerEnter != null) onPlayerEnter(__health);
         }

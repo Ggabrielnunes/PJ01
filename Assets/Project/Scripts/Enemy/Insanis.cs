@@ -22,10 +22,37 @@ public class Insanis : BaseEnemy
         base.MUpdate();
     }
 
+    public override void UpdateEmotion(float p_playerMood)
+    {
+        if (p_playerMood > 0)
+        {
+            if (p_playerMood < 0.3f)
+            {
+                ActivateEnemy(true);
+            }
+            else if (p_playerMood > 0.6f)
+            {
+                ActivateEnemy(false);
+            }
+        }
+        else
+        {
+            if (p_playerMood > -0.3f)
+            {
+                ActivateEnemy(true);
+            }
+            else if (p_playerMood < -0.6f)
+            {
+                ActivateEnemy(false);
+            }
+        }
+    }
+
     public void OnTriggerEnter2D(Collider2D p_collider)
     {
         if (p_collider.tag == "Player")
         {
+            inAnimator.SetBool("Attack", true);
             if (_playerHealth != null) _playerHealth = p_collider.GetComponent<PlayerHealth>();
             InvokeRepeating("DamagePlayer", 0.1f, damageRate);
         }
@@ -35,6 +62,7 @@ public class Insanis : BaseEnemy
     {
         if (p_collider.tag == "Player")
         {
+            inAnimator.SetBool("Attack", false);
             if (_playerHealth != null) _playerHealth = p_collider.GetComponent<PlayerHealth>();
             CancelInvoke("DamagePlayer");
         }
