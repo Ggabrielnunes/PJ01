@@ -39,6 +39,7 @@ public class PlayerMovement : MonoBehaviour {
     [Tooltip("Levitation length")]
     [SerializeField] private float _levLength = 3f;
 
+    public bool isActive = true;
     private States _playerState = States.IDLE; 
     private Rigidbody2D _rigidBody;
     private float _moveSpeed;    
@@ -61,8 +62,8 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     private float _linearDrag = 7f;    
-    private float _minJumpingHeight=2f;
-    private float _maxJumpingHeight=4.2f;
+    private float _minJumpingHeight=3f;
+    private float _maxJumpingHeight=4.5f;
     private float _speedMult;
     private float _levCounter = 0;
 
@@ -82,7 +83,7 @@ public class PlayerMovement : MonoBehaviour {
 
     public void GUpdate()
     {
-        if (lockMovement >= 1)
+        if (lockMovement >= 1 || !isActive)
             return;
 
         if(Input.GetKey(KeyCode.D))

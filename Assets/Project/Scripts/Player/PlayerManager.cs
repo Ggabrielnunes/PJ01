@@ -47,9 +47,9 @@ public class PlayerManager : MonoBehaviour {
         {
             playerAnimator.SetTrigger("Death");
             if (onDeath != null) onDeath();
-            playerEmotions.enabled = false;
-            playerHealth.enabled = false;
-            playerMovement.enabled = false;
+            playerEmotions.isActive = false;
+            playerHealth.isActive = false;
+            playerMovement.isActive = false;
         };
 
         playerHealth.onPushed += delegate ()
@@ -88,6 +88,13 @@ public class PlayerManager : MonoBehaviour {
     public void UnlockActions()
     {
         playerMovement.UnlockMovement();
+    }
+
+    public void LockAll()
+    {
+        playerEmotions.isActive = false;
+        playerHealth.isActive = false;
+        playerMovement.isActive = false;
     }
 
     private void CheckRotation()

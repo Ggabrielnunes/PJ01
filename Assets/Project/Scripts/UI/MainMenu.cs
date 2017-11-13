@@ -36,6 +36,11 @@ public class MainMenu : MonoBehaviour {
 
     public void SelectStage(int p_stage)
     {
-        if(SceneManager.sceneCount>=p_stage) SceneManager.LoadScene(p_stage);
+       SceneManager.LoadScene("Stage_"+p_stage);
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 }

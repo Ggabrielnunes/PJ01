@@ -20,18 +20,19 @@ public class GameManager : MonoBehaviour {
     // Use this for initialization
     void Start () {
         _door = FindObjectOfType<Door>();
-
+        
         _playerEmotions = player.GetComponent<Emotions>();
-        _playerHealth = player.GetComponent<PlayerHealth>();
-        SFXManager.Instance.KInitialize();
-        guiManager.MInitialize();
-        keyManager.MInitialize();
-        enemyManager.MInitialize();
+        _playerHealth = player.GetComponent<PlayerHealth>();     
 
         if(_door!=null)
         {
             _door.onEndStage += delegate ()
             {
+                playerManager.LockAll();
+                Dictionary<string, object> __newDic = new Dictionary<string, object>();
+                __newDic.Add("Time", Time.timeSinceLevelLoad);
+                __newDic.Add("Mood", _playerEmotions.GetMood());
+                AnalyticsManager.Instance.SendCustomEvent("StageEnd", __newDic);
                 var __stages = PlayerPrefs.GetInt("UnlockedStages");
                 if (__stages <= stage)
                 {
@@ -90,16 +91,25 @@ public class GameManager : MonoBehaviour {
             else if(p_effect == 3) Application.Quit();
             else if(p_effect == 4)
             {
-                var __scene = SceneManager.GetSceneByName("Stage" + stage + 1);
-                if (__scene!=null)
+              switch(stage)
                 {
-                    SceneManager.LoadScene(__scene.name);
-                }
-                else
-                {
-                    SceneManager.LoadScene("MainMenu");
+                    case 1:
+                        SceneManager.LoadScene("stage_2");
+                        break;
+                    case 2:
+                        SceneManager.LoadScene("stage_3");
+                        break;
+                    case 3:
+                        SceneManager.LoadScene("MainMenu");
+                        break;
                 }
             }
         };
+
+        SFXManager.Instance.KInitialize();
+        guiManager.MInitialize();
+        keyManager.MInitialize();
+        enemyManager.MInitialize();
+        _playerEmotions.Ginitialize();
     }
 }

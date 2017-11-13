@@ -7,6 +7,7 @@ public class Emotions : MonoBehaviour {
     public event Action<float> onChangedEmotions;
 
     public float startingMood = 0.5f;
+    public bool isActive = true;
 
     private float _mood;
 
@@ -19,12 +20,14 @@ public class Emotions : MonoBehaviour {
     public void Ginitialize()
     {
         _mood = startingMood;
-        if (onChangedEmotions != null) onChangedEmotions(_mood);
         _playerMovement = GetComponent<PlayerMovement>();
+        if (onChangedEmotions != null) onChangedEmotions(_mood);
     }
 
     public void GUpdate()
     {
+        if (!isActive)
+            return;
         if (_raisingEmotion)
         {
             if(_raiseToSad)

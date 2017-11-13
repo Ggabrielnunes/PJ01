@@ -5,9 +5,11 @@ public class PlayerHealth : BaseHealth {
 
     public event System.Action onPushed;
 
+    public bool isActive = true;
+
     public void DamageDirect(float p_damage)
     {
-        if (_health > 0)
+        if (_health > 0 && isActive)
         {
             _health -= p_damage;
             OnDamage();
@@ -20,7 +22,10 @@ public class PlayerHealth : BaseHealth {
 
     public void ApplyForce(Vector2 p_force)
     {
-        if (p_force.y > 0 && onPushed != null) onPushed();
-        _rigidBody.AddForce(p_force, ForceMode2D.Impulse);
+        if(isActive)
+        {
+            if (p_force.y > 0 && onPushed != null) onPushed();
+            _rigidBody.AddForce(p_force, ForceMode2D.Impulse);
+        }
     }
 }

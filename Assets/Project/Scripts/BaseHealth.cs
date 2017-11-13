@@ -43,6 +43,13 @@ public class BaseHealth : MonoBehaviour {
         }
     }
 
+    public void Kill()
+    {
+        _health = -10;
+        OnDamage();
+        OnDeath();
+    }
+
     public virtual void SetInvincible(bool p_inv)
     {
         _invincible = p_inv;

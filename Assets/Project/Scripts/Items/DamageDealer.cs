@@ -12,7 +12,11 @@ public class DamageDealer : MonoBehaviour {
         if (p_collider.tag == "Player")
         {
             if (_playerHealth == null) _playerHealth = p_collider.GetComponent<PlayerHealth>();
-            _playerHealth.DamageUnit(damage);
+            if(damage>100)
+            {
+                _playerHealth.Kill();
+            }
+            else _playerHealth.DamageUnit(damage);
         }
     }
 
