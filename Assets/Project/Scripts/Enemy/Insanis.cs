@@ -73,7 +73,7 @@ public class Insanis : BaseEnemy
         if(_playerHealth!=null && _playerEmotions!=null)
         {
             _playerHealth.DamageUnit(damage);
-            _playerEmotions.SetMood(false, 0.2f);
+            _playerEmotions.SetMood(false, -0.2f);
         }
     }
 

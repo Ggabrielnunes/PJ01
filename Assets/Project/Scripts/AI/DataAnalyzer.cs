@@ -13,12 +13,12 @@ public class DataAnalyzer : MonoBehaviour {
             if (p_data[1].health < p_data[2].health)
             {
                 _dictionary.Add("Health", "Lostx2");
-                p_value -= 0.1f;
+                p_value -= 0.2f;
             }
             else
             {
                 _dictionary.Add("Health", "Lostx1");
-                p_value -= 0.2f;
+                p_value -= 0.1f;
             }
         }
         else if (p_data[0].health > p_data[1].health)
@@ -31,7 +31,7 @@ public class DataAnalyzer : MonoBehaviour {
             else if (p_data[1].health > p_data[2].health)
             {
                 _dictionary.Add("Health", "Recoveredx2");
-                p_value += 0.1f;
+                p_value += 0.3f;
             }
         }
         return p_value;
